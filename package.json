@@ -1,0 +1,61 @@
+{
+  "name": "@konghaoyao/peri-code-review",
+  "version": "0.1.0",
+  "description": "Code review skills and tools for Peri and Ultracode",
+  "type": "module",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "bin": {
+    "peri-code-review": "dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "assets",
+    "docs",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KonghaYao/open-code-review.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KonghaYao/open-code-review/issues"
+  },
+  "homepage": "https://github.com/KonghaYao/open-code-review#readme",
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "dev": "tsx src/cli.ts",
+    "start": "node dist/cli.js",
+    "smoke:cli": "tsx src/dev/smoke-cli.ts",
+    "check": "npm run typecheck && npm run test",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.4.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.4.0",
+    "@types/node": "22.20.5",
+    "tsup": "9.0.0",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vitest": "5.0.5"
+  }
+}

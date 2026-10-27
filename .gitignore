@@ -1,14 +1,12 @@
-# Build output
-/bin/
-coverage.out
-coverage.html
+# Node.js dependencies and build output
+/node_modules/
+/dist/
+/coverage/
+*.tgz
 
-# Local Go module overlay used for offline or older-toolchain verification
-go.local.mod
-go.local.sum
-
-# Review state must live outside the repository; ignore a local override
-/.peri-code-review/
+# Agent workflow runs and local scratch
+.claude/
+.peri/
 
 # IDE
 .idea/
@@ -18,8 +16,3 @@ go.local.sum
 
 # OS
 .DS_Store
-
-# Local scratch
-vendor/
-temp/
-.codegraph/

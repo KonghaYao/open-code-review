@@ -8,20 +8,22 @@ on:
 permissions:
   contents: read
 
-env:
-  LC_ALL: C
-
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [24, 26]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-node@v4
         with:
-          go-version: "1.26.9"
-          cache: false
-      - run: go mod download
-      - run: go test ./...
-      - run: go vet ./...
-      - run: bash scripts/verify-license.sh
-      - run: go run scripts/verify-english-only.go
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: npm run smoke:cli
+      - run: npm pack --dry-run

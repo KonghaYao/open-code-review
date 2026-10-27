@@ -4,10 +4,12 @@
 
 | Version | Supported |
 | - | - |
-| Latest | Yes |
-| Older | No |
+| Latest npm release | Yes |
+| Older releases | No |
 
-Only the latest released version receives security updates.
+The released artifact is the npm package `@konghaoyao/peri-code-review` with
+the `peri-code-review` bin, run on Node.js 24 LTS or newer. Only the latest
+release receives security updates.
 
 ## Reporting a Vulnerability
 
@@ -29,11 +31,13 @@ their GitHub profiles.
 
 The `peri-code-review` MCP server is in scope. Examples:
 
-- Path traversal or symlink escapes that read outside the bound repository.
-- A state directory or snapshot that leaks into the reviewed work tree.
-- Review of mutable input instead of the frozen snapshot.
-- Request-key, idempotency or lock handling that corrupts run state.
+- Path traversal or symlink escapes that read outside the bound repository or `workflow-root`.
+- Writing outside `output-dir`, overwriting an existing report, or following a symlink out of the output directory.
+- Reviewing mutable input, or reconstructing an exportable result from journal fragments when the workflow has no complete return value.
 - Command injection through Git arguments or repository paths.
+- Reading or exporting secret paths (`.env`, private keys and similar) despite the hard exclusion.
+- A workflow run identifier or long-text reference that escapes its run directory.
+- Exporting a finding whose location does not resolve in the reviewed Git revision, or writing a report before that evidence validation runs.
 
 Out of scope:
 

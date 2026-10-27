@@ -32,75 +32,102 @@ does not follow these rules, please warn the user about this:
 
 ## Project Overview
 
-`peri-code-review` is the MCP server that exposes code review to Peri
-(module: `github.com/KonghaYao/open-code-review`). It is MCP-only:
+`@konghaoyao/peri-code-review` is a TypeScript MCP server published to npm. It
+exposes code review to Peri over local stdio; the `peri-code-review` bin is the
+only entry point. Node.js 24 is the supported baseline (`engines.node >= 24`),
+and Git is invoked from the host.
 
-- `cmd/peri-code-review` is the single entry point.
-- `internal/reviewmcp` owns the MCP transport, tools, resources and Skills
-  extension.
-- `internal/reviewcore` owns review units, findings, coverage and reports.
-- `internal/reviewrepo` freezes Git input and serves an immutable reader.
-- `internal/reviewstore` owns runs, request keys and locks.
-- `internal/reviewassets` embeds the Skill and Agent documents.
-- `internal/config/rules` and `internal/config/allowlist` select files and
-  resolve review rules.
-- `internal/gitcmd` and `internal/pathutil` provide the shared git and path
-  helpers.
+- `src/cli.ts` parses `serve`, `version` and `help` and starts the stdio server.
+- `src/mcp/` owns the protocol surface: the three tools, the public skills
+  resources and the `skills/list` and `skills/get` methods. `src/mcp/evidence.ts`
+  revalidates every finding location against the fixed Git source at export
+  time.
+- `src/git/` and `src/repository/` resolve the fixed Git input, build the unit
+  manifest, read blobs and verify locations and workspace fingerprints.
+- `src/rules/` matches the private rule catalog to units; rules are never served
+  as a public resource.
+- `src/domain/`, `src/report/` and `src/run/` hold the shared types, coverage
+  and completion rules, the JSON/Markdown report builder and the read-only
+  Ultracode run adapter.
+- `assets/skills/` holds the three published skills `review`, `review-code` and
+  `review-verify`, `assets/workflow/example.js` is the workflow example, and
+  `assets/rules/` is the internal rule catalog.
 
-The server never calls a model, never creates agents, never edits the
-repository and never runs shell commands on behalf of a caller. Peri owns model
-calls and agent execution. Do not reintroduce a review CLI, IDE extensions,
-provider presets, packaged plugins or any other model-facing surface.
+The public surface is exactly three tools — `prepare_code_review`,
+`get_code_review_area` and `export_code_review` — plus the three skills and the
+example. Do not register `agent://` resources, a downloadable rule catalog,
+report templates or `schema://` resources. Do not add an HTTP server, model
+calls, agent scheduling, automatic fixes, IDE extensions or a second workflow
+engine; Peri and Ultracode own execution.
+
+## Commands
+
+Use npm scripts for every check and build.
+
+```bash
+npm ci
+npm run typecheck   # tsc --noEmit
+npm test            # vitest run
+npm run check       # typecheck and tests together
+npm run build       # tsup -> dist/
+npm run smoke:cli   # run the built CLI through an npm-style bin symlink
+```
+
+`npm run check` is the gate before requesting review. To run the CLI from
+source, use `npm run dev -- serve --repo <path>`.
 
 ## Code Review and Commits
 
-- Before committing, review the complete diff yourself. Run `make check` and
-  `make test`; do not rely on a generated summary.
+- Before committing, review the complete diff yourself and run `npm run check`;
+  do not rely on a generated summary.
 - Commit messages must be written in English.
 - Verify line endings. Line endings must be LF, not CRLF. Run
   `git add --renormalize .` to correct line endings and commit them. New binary
   files must have their extensions added to `.gitattributes`.
-- Changes to tool schemas, error codes, resource URIs, idempotency behavior or
-  the state layout are protocol changes. Update `docs/peri-mcp/contract.md` in
-  the same change.
+- Changes to tool schemas, error codes, resource URIs or the run-record format
+  are protocol changes. Update `docs/contract.md` in the same change, and update
+  `docs/migration.md` when behavior or configuration changes.
+- Do not commit `dist/`, `node_modules/`, coverage output, tarballs or agent
+  run directories; they are ignored for that reason.
 
 ## License Headers
 
-- Every source file must have an SPDX license header. The current tree contains
-  `.go` and `.sh` sources; the license scripts also cover the other extensions
-  listed in `LICENSE_EXTS`.
-- After creating new files, run `make license-add` to add the header
-  automatically. It picks the comment syntax by extension: `//`, `#`, or a
-  `/* */` block for CSS.
-- `make license-check` scans tracked source files only.
+- Every source file starts with the SPDX header:
+
+  ```ts
+  // SPDX-License-Identifier: Apache-2.0
+  // Copyright 2026 alibaba/open-code-review Contributors
+  ```
+
+- Add the header when you create a file, and keep it on files you rewrite.
+  Headers are checked during review; there is no separate generator script.
+- Do not remove or reword existing copyright notices.
 
 ## Code Style
 
 - **Comment sparingly, and only to explain "why".** Do not add comments that
   restate what the code already says (`// increment i`), narrate the change
   itself (`// newly added`, `// changed to fix ...` — that belongs in the commit
-  message or PR description), quote pull request or issue numbers from the
-  upstream repository, or leave TODO/placeholder chatter. A comment earns its
-  place only when it captures intent, a non-obvious constraint, or a subtlety
-  the code cannot express on its own.
-- After writing code, run `make check`. It formats and tidies in place, so there
-  is no need to run `gofmt` or `go vet` separately.
+  message or PR description), quote pull request or issue numbers, or leave
+  TODO/placeholder chatter. A comment earns its place only when it captures
+  intent, a non-obvious constraint, or a subtlety the code cannot express on its
+  own.
+- Prefer small functions over deep nesting, and type the data crossing a module
+  boundary instead of passing `any`.
 - **Source files are written in English** — comments, identifiers and strings
-  alike. `make english-check` enforces this. It flags any letter outside ASCII,
-  whichever the writing system (Han, kana, Hangul, Cyrillic, and equally the
-  diacritics that spell German or Vietnamese), plus combining accents and
-  fullwidth punctuation (`：`, `（`), which is easy to leave behind in an
-  otherwise English sentence. Symbols and emoji (`─ → ≥ ✅`) pass, since they
-  are not letters. Prose spelled entirely in ASCII (`Loeschen der Datei`, or a
-  romanised transcription) takes a dictionary to spot and stays a matter for
-  review.
-- Markdown documentation is not scanned by `make english-check`; translated
-  prose belongs there rather than in source files.
+  alike. Symbols and emoji are fine. Translated prose belongs in Markdown
+  documentation, not in code.
+- Keep Git invocations on the argument-array helpers in `src/git/`; never build
+  a shell string, and never run commands from the repository under review.
+- Writes go through the report builder and the configured output directory.
+  Never write into the reviewed repository.
 
 ## Testing
 
-- Run unit tests with `make test`, not `go test` directly.
-- `make test` sets `LC_ALL=C` to ensure git outputs English messages.
-- When writing or modifying code, add necessary unit tests. `make coverage`
-  reports statement coverage; the old 90% gate is not enforced while the MCP
-  service layer is still being covered.
+- Run tests with `npm test`, or `npm run check` to include type checking.
+- Tests that need Git create their own temporary repositories and remove them
+  afterwards. Do not depend on the developer's home directory, global Git
+  configuration or the checkout's own history.
+- The export path is exercised through the real stdio entry and an in-memory
+  transport. Add tests for behavior changes, including failure paths such as
+  unresolved evidence, incomplete coverage and malformed run records.

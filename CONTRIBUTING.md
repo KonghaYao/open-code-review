@@ -1,8 +1,9 @@
 # Contributing to peri-code-review
 
-Thank you for contributing to the `peri-code-review` MCP server. This project
-is MCP-only: it exposes code review state to Peri and never calls a model or
-runs an agent itself.
+Thank you for contributing to `@konghaoyao/peri-code-review`. This project is a
+TypeScript MCP server published to npm: it prepares Git review input, matches
+the internal rule catalog, and validates and exports Ultracode review results
+over local stdio. It never calls a model and never schedules agents itself.
 
 ## Code of Conduct
 
@@ -13,21 +14,23 @@ inclusive environment. Please be kind and constructive in all interactions. See
 ## Ways to Contribute
 
 - Report bugs with reproduction steps.
-- Suggest improvements to the MCP tools, resources or contract.
-- Improve the documentation under [`docs/peri-mcp/`](docs/peri-mcp/).
+- Suggest improvements to the three tools, the skills, or the protocol in
+  [`docs/contract.md`](docs/contract.md).
+- Improve the documentation in [`README.md`](README.md) and [`docs/`](docs).
 - Review pull requests.
-- Write code, tests or fixtures.
+- Write code, tests, skills or fixtures.
 
-Do not propose model providers, agent orchestration, IDE extensions or a review
-CLI: those surfaces are out of scope for this repository.
+Do not propose model providers, agent orchestration, an HTTP server, IDE
+extensions or a standalone review CLI: those surfaces are out of scope for this
+repository.
 
 ## Getting Started
 
 ### Prerequisites
 
-- [Go 1.26.9+](https://go.dev/dl/)
+- [Node.js 24 LTS](https://nodejs.org/en/download) or newer (`engines.node >= 24`)
 - [Git](https://git-scm.com/)
-- [Make](https://www.gnu.org/software/make/)
+- npm (bundled with Node.js)
 
 ### Setup
 
@@ -41,15 +44,17 @@ cd open-code-review
 # 3. Add upstream remote (for syncing updates)
 git remote add upstream https://github.com/KonghaYao/open-code-review.git
 
-# 4. Build the MCP server
-make build
+# 4. Install dependencies
+npm ci
 
-# 5. Run the tests
-make test
+# 5. Run the checks
+npm run check
 ```
 
-`make build` writes `bin/peri-code-review`. Run
-`./bin/peri-code-review version` to confirm the build.
+To try the server from source, run `npm run dev -- serve --repo <path>`. To test
+the packaged CLI, run `npm run build` and then `npm run smoke:cli`; it links
+`dist/cli.js` as an npm-style `.bin` symlink in a temporary directory and fails
+on empty output.
 
 ### Line Endings
 
@@ -96,9 +101,9 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/) format:
 Examples:
 
 ```
-feat(tools): add a bounds field to review_context
-fix(store): keep request keys stable across retries
-docs(contract): clarify review_finish outcomes
+feat(tools): accept a commit range in prepare_code_review
+fix(evidence): reject a finding location the fixed source does not hold
+docs(contract): clarify export_code_review partial results
 ```
 
 Commit messages must be in English. Do not add AI attribution trailers.
@@ -107,44 +112,46 @@ Commit messages must be in English. Do not add AI attribution trailers.
 
 If you use AI/LLM tools, disclose that in your pull request and name the
 tools/models used. You must understand and review every generated line, and you
-must answer maintainer questions yourself. See
-[`AGENTS.md`](AGENTS.md) for the full rules.
+must answer maintainer questions yourself. See [`AGENTS.md`](AGENTS.md) for the
+full rules.
 
 ### License Headers
 
-Every source file must include an SPDX license header. After creating new
-files, run:
+Every source file must start with the SPDX header:
 
-```bash
-make license-add
+```ts
+// SPDX-License-Identifier: Apache-2.0
+// Copyright 2026 alibaba/open-code-review Contributors
 ```
 
-`make license-check` verifies tracked source files.
+Add it when you create a file. There is no generator script; the header is
+checked in review. Do not edit existing copyright notices.
 
-### Formatting and Checks
+### Checks
 
 Run before opening a pull request:
 
 ```bash
-make check
-make test
+npm run check
 ```
 
-`make check` runs the license and English checks, formats and tidies the code,
-and runs `go vet`. `make test` sets `LC_ALL=C` so git emits English messages.
+`npm run check` runs `npm run typecheck` (`tsc --noEmit`) and `npm test`
+(Vitest). Use `npm test -- <pattern>` to run a subset while iterating. For a
+release-style pass, also run `npm run build` and `npm pack --dry-run`.
 
-Source files are English-only. Do not put translated prose in code; Markdown
-documentation is not scanned and is the right place for translations.
+Source files are English-only: comments, identifiers and strings alike.
+Translated prose belongs in Markdown documentation, not in code.
 
 ## Pull Requests
 
 - Keep the change focused and explain the motivation in the PR description.
-- Include tests for behavior changes.
-- Update [`docs/peri-mcp/contract.md`](docs/peri-mcp/contract.md) when a tool
-  schema, error code, resource URI, idempotency rule or state layout changes.
-- Make sure CI passes: `go test ./...`, `go vet ./...`, the license check and
-  the English check.
-- Do not commit generated binaries, local state or `go.local.*` files.
+- Include tests for behavior changes. Tests that need Git create their own
+  temporary repositories and clean them up.
+- Update [`docs/contract.md`](docs/contract.md) when a tool schema, error code,
+  resource URI or run-record format changes, and
+  [`docs/migration.md`](docs/migration.md) when behavior or configuration
+  changes.
+- Disclose AI/LLM assistance and review all generated content yourself.
 
 ## Reporting Security Issues
 

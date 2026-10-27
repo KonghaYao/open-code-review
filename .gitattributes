@@ -1,12 +1,15 @@
 * text=auto eol=lf
 
-# Source and documentation
-*.go       text eol=lf
-*.md       text eol=lf
-*.sh       text eol=lf
-Makefile   text eol=lf
-go.mod     text eol=lf
-go.sum     text eol=lf
+# Source, configuration and documentation
+*.ts     text eol=lf
+*.mts    text eol=lf
+*.js     text eol=lf
+*.mjs    text eol=lf
+*.json   text eol=lf
+*.yml    text eol=lf
+*.yaml   text eol=lf
+*.md     text eol=lf
+*.sh     text eol=lf
 
 # Images
 *.png  binary

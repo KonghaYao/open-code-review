@@ -1,0 +1,507 @@
+{
+  "formatVersion": 1,
+  "version": "1.0.0",
+  "fallback": {
+    "area": "general",
+    "checks": [
+      "Read the changed lines in the context of the surrounding file and confirm the diff does what its commit or change description intends.",
+      "Check correctness risks: missing error handling, unchecked nullable values, boundary and empty-input cases, and partial state left behind on failure.",
+      "Check security risks introduced by the change: untrusted input reaching a sensitive sink, credentials or personal data in code or logs, and missing authorization checks.",
+      "Check performance risks: repeated work, unbounded loops or allocations, and blocking calls on a hot path.",
+      "Check maintainability problems: misleading names, duplicated constants or branches, and comments that no longer match the code.",
+      "Check whether the behavior change is covered by a test, and whether an existing test still asserts the old behavior.",
+      "Report redundant or dead code only when the change creates a real behavior, maintenance or evolution risk."
+    ]
+  },
+  "rules": [
+    {
+      "id": "correctness-code",
+      "area": "correctness",
+      "description": "General correctness checks for program source files.",
+      "languages": [
+        "typescript",
+        "javascript",
+        "go",
+        "python",
+        "java",
+        "kotlin",
+        "rust",
+        "c",
+        "cpp",
+        "csharp",
+        "ruby",
+        "php",
+        "swift",
+        "scala",
+        "shell",
+        "sql",
+        "lua",
+        "dart",
+        "elixir",
+        "erlang",
+        "haskell",
+        "clojure",
+        "fsharp",
+        "vue",
+        "svelte",
+        "astro",
+        "solidity",
+        "zig",
+        "nim",
+        "julia",
+        "r",
+        "terraform",
+        "hcl",
+        "nix",
+        "graphql",
+        "prisma"
+      ],
+      "checks": [
+        "Check every return and failure path: errors are surfaced, propagated or handled, and no success value is produced after a failure.",
+        "Check nullable and boundary inputs: empty collections, zero values, missing optional fields, first and last elements, and off-by-one ranges.",
+        "Check state and ordering: shared mutable state, partial updates on failure, and asynchronous work that can race, leak or run after cleanup.",
+        "Check the changed contract against its callers and implementations: parameters, return shape, thrown errors and defaults stay consistent."
+      ]
+    },
+    {
+      "id": "correctness-language-typescript",
+      "area": "correctness",
+      "description": "TypeScript and JavaScript runtime hazards that the type checker does not catch.",
+      "languages": [
+        "typescript",
+        "javascript"
+      ],
+      "checks": [
+        "Check type escapes: any, non-null assertions and casts that hide a runtime shape mismatch rather than prove it.",
+        "Check async code: unhandled promise rejections, missing awaits, and callbacks that can run more than once.",
+        "Check runtime API contracts: encoding, path handling, error codes and cleanup around I/O or subprocesses."
+      ]
+    },
+    {
+      "id": "correctness-language-go",
+      "area": "correctness",
+      "description": "Go error, context and concurrency hazards.",
+      "languages": [
+        "go"
+      ],
+      "checks": [
+        "Check error handling: errors are wrapped with context, never discarded, and compared with errors.Is or errors.As where the caller depends on the cause.",
+        "Check goroutine and resource lifetime: cancellation is propagated through context, closers are deferred, and no goroutine can outlive its caller.",
+        "Check shared state for data races and lock ordering, including maps and slices captured by closures."
+      ]
+    },
+    {
+      "id": "correctness-language-python",
+      "area": "correctness",
+      "description": "Python exception, mutation and async hazards.",
+      "languages": [
+        "python"
+      ],
+      "checks": [
+        "Check exception scope: broad except clauses, swallowed exceptions, and cleanup that only runs on the success path.",
+        "Check mutable default arguments, mutation while iterating, and blocking calls inside async functions."
+      ]
+    },
+    {
+      "id": "correctness-language-jvm",
+      "area": "correctness",
+      "description": "Java and Kotlin nullability, resource and concurrency hazards.",
+      "languages": [
+        "java",
+        "kotlin"
+      ],
+      "checks": [
+        "Check nullability and resource lifecycle: try-with-resources, closable streams, and Kotlin platform types received from Java APIs.",
+        "Check concurrency: shared mutable state, thread safety of injected dependencies, and blocking work on an event-loop thread."
+      ]
+    },
+    {
+      "id": "correctness-language-rust",
+      "area": "correctness",
+      "description": "Rust panic, error and ownership hazards.",
+      "languages": [
+        "rust"
+      ],
+      "checks": [
+        "Check panic paths: unwrap or expect on data that can be absent or invalid, and integer casts that can truncate.",
+        "Check ownership and errors: unnecessary clones, lost error context, and unsafe blocks without a stated invariant."
+      ]
+    },
+    {
+      "id": "correctness-deleted",
+      "area": "correctness",
+      "description": "Impact of a removed file or symbol.",
+      "changeKinds": [
+        "deleted"
+      ],
+      "checks": [
+        "Confirm every reference to the removed file or symbol is updated: imports, build targets, routing or configuration entries, tests and documentation.",
+        "Confirm removing public behavior is intentional and that no runtime path still expects the old module.",
+        "Confirm deleted configuration or assets are no longer referenced by deployment or packaging."
+      ]
+    },
+    {
+      "id": "correctness-migrations",
+      "area": "correctness",
+      "description": "Schema and data migration safety.",
+      "patterns": [
+        "**/migrations/**",
+        "**/migrate/**",
+        "**/db/migration/**",
+        "**/database/migrations/**"
+      ],
+      "checks": [
+        "Check forward and rollback paths, including data backfill and what happens when only part of the migration succeeds.",
+        "Check locks and long-running statements against production table size and traffic.",
+        "Check that the schema change stays compatible with the previous application version during a rolling deploy."
+      ]
+    },
+    {
+      "id": "config-behavior-consistency",
+      "area": "correctness",
+      "description": "Configuration changes must match the code that reads them.",
+      "pathCategories": [
+        "config",
+        "ci",
+        "build"
+      ],
+      "checks": [
+        "Trace each changed configuration key or default to the code that reads it; confirm the name, type and fallback value agree.",
+        "Check environment parity: development, test and production configuration stay compatible with the change.",
+        "Check that behavior enabled or disabled by the change has a matching test or a documented manual step."
+      ]
+    },
+    {
+      "id": "security-code",
+      "area": "security",
+      "description": "Application security checks for program source files.",
+      "languages": [
+        "typescript",
+        "javascript",
+        "go",
+        "python",
+        "java",
+        "kotlin",
+        "rust",
+        "c",
+        "cpp",
+        "csharp",
+        "ruby",
+        "php",
+        "swift",
+        "scala",
+        "shell",
+        "sql",
+        "lua",
+        "dart",
+        "elixir",
+        "erlang",
+        "haskell",
+        "clojure",
+        "fsharp",
+        "vue",
+        "svelte",
+        "astro",
+        "solidity",
+        "zig",
+        "nim",
+        "julia",
+        "r",
+        "terraform",
+        "hcl",
+        "nix",
+        "graphql",
+        "prisma"
+      ],
+      "checks": [
+        "Trace untrusted input to sensitive sinks: command execution, SQL, templates, file paths, deserialization and outbound requests.",
+        "Check authorization and authentication on every new entry point, not only on the UI path.",
+        "Check secrets and personal data: no credentials in code, logs, error messages or test fixtures.",
+        "Check path, URL and header construction for traversal and injection, including redirects and file uploads."
+      ]
+    },
+    {
+      "id": "security-config",
+      "area": "security",
+      "description": "Secrets, permissions and exposure in configuration and CI.",
+      "pathCategories": [
+        "config",
+        "ci",
+        "build"
+      ],
+      "checks": [
+        "Check for plaintext credentials and tokens in configuration, CI definitions and test data.",
+        "Check permissions and exposure: overly broad CI tokens, permissive CORS, public buckets and debug endpoints.",
+        "Check that third-party actions and images are pinned and that new network endpoints are expected."
+      ]
+    },
+    {
+      "id": "security-dependencies",
+      "area": "security",
+      "description": "Dependency manifest and lockfile changes.",
+      "pathCategories": [
+        "dependency"
+      ],
+      "checks": [
+        "Check that the manifest and lockfile change together and that no unrelated dependency was upgraded.",
+        "Check version ranges and resolved versions for unexpected major jumps or prerelease builds.",
+        "Check whether a newly added package is required; prefer an existing dependency or the standard library when it is sufficient."
+      ]
+    },
+    {
+      "id": "performance-code",
+      "area": "performance",
+      "description": "Cost introduced by changed code paths.",
+      "languages": [
+        "typescript",
+        "javascript",
+        "go",
+        "python",
+        "java",
+        "kotlin",
+        "rust",
+        "c",
+        "cpp",
+        "csharp",
+        "ruby",
+        "php",
+        "swift",
+        "scala",
+        "shell",
+        "sql",
+        "lua",
+        "dart",
+        "elixir",
+        "erlang",
+        "haskell",
+        "clojure",
+        "fsharp",
+        "vue",
+        "svelte",
+        "astro",
+        "solidity",
+        "zig",
+        "nim",
+        "julia",
+        "r",
+        "terraform",
+        "hcl",
+        "nix",
+        "graphql",
+        "prisma"
+      ],
+      "checks": [
+        "Check the cost of new loops and lookups; flag work that grows with input where the old path did not.",
+        "Check repeated I/O, parsing or serialization inside loops that can be hoisted or batched.",
+        "Check unbounded concurrency, caches and buffers introduced by the change."
+      ]
+    },
+    {
+      "id": "performance-config",
+      "area": "performance",
+      "description": "Build, CI and runtime configuration cost.",
+      "pathCategories": [
+        "config",
+        "ci",
+        "build"
+      ],
+      "checks": [
+        "Check build or CI changes for repeated installs, full rebuilds or disabled caches that slow feedback.",
+        "Check runtime configuration defaults that can cause unbounded retries, timeouts or pool sizes."
+      ]
+    },
+    {
+      "id": "maintainability-code",
+      "area": "maintainability",
+      "description": "Readability and evolution cost of changed code.",
+      "languages": [
+        "typescript",
+        "javascript",
+        "go",
+        "python",
+        "java",
+        "kotlin",
+        "rust",
+        "c",
+        "cpp",
+        "csharp",
+        "ruby",
+        "php",
+        "swift",
+        "scala",
+        "shell",
+        "sql",
+        "lua",
+        "dart",
+        "elixir",
+        "erlang",
+        "haskell",
+        "clojure",
+        "fsharp",
+        "vue",
+        "svelte",
+        "astro",
+        "solidity",
+        "zig",
+        "nim",
+        "julia",
+        "r",
+        "terraform",
+        "hcl",
+        "nix",
+        "graphql",
+        "prisma"
+      ],
+      "checks": [
+        "Check names, structure and comments against the surrounding code; the change should read like the file it lands in.",
+        "Check the public surface: a new exported function, option or type needs a reason and a usable name.",
+        "Check comments and documentation touched by the change for accuracy; remove claims the code no longer supports.",
+        "Check error messages and logs for enough context to diagnose the failure without a debugger."
+      ]
+    },
+    {
+      "id": "maintainability-docs",
+      "area": "maintainability",
+      "description": "Documentation accuracy and drift.",
+      "pathCategories": [
+        "docs"
+      ],
+      "checks": [
+        "Check that documented commands, flags, paths and examples still match the code.",
+        "Check links and version references; prefer a stable reference over an exact line or transient identifier."
+      ]
+    },
+    {
+      "id": "maintainability-config",
+      "area": "maintainability",
+      "description": "Readability and drift in configuration files.",
+      "pathCategories": [
+        "config",
+        "ci",
+        "build"
+      ],
+      "checks": [
+        "Check duplicated keys and drift between environments or CI jobs.",
+        "Check that commented-out or dead configuration is removed or explained.",
+        "Check names and grouping against the neighboring configuration."
+      ]
+    },
+    {
+      "id": "testing-impact",
+      "area": "testing",
+      "description": "Test coverage of changed behavior.",
+      "pathCategories": [
+        "source"
+      ],
+      "languages": [
+        "typescript",
+        "javascript",
+        "go",
+        "python",
+        "java",
+        "kotlin",
+        "rust",
+        "c",
+        "cpp",
+        "csharp",
+        "ruby",
+        "php",
+        "swift",
+        "scala",
+        "shell",
+        "sql",
+        "dart",
+        "elixir",
+        "erlang",
+        "haskell",
+        "clojure",
+        "fsharp",
+        "vue",
+        "svelte"
+      ],
+      "changeKinds": [
+        "modified"
+      ],
+      "checks": [
+        "Identify the behavior the diff changes and find the test that pins it; if none exists, say what should be tested.",
+        "Check new branches, error paths and boundary values for coverage by a concrete test.",
+        "Check that existing tests were updated for intentional behavior changes instead of deleted or weakened."
+      ]
+    },
+    {
+      "id": "testing-quality",
+      "area": "testing",
+      "description": "Quality and reliability of changed tests.",
+      "pathCategories": [
+        "test"
+      ],
+      "checks": [
+        "Check that the test fails for the bug or missing behavior it claims to cover; remove or fix assertions that cannot fail.",
+        "Check isolation and determinism: shared state, time, ordering, network and filesystem assumptions.",
+        "Check that mocks match the real contract and are not hiding a broken integration."
+      ]
+    },
+    {
+      "id": "redundancy-code",
+      "area": "redundancy",
+      "description": "Duplication and dead code with a real maintenance risk.",
+      "languages": [
+        "typescript",
+        "javascript",
+        "go",
+        "python",
+        "java",
+        "kotlin",
+        "rust",
+        "c",
+        "cpp",
+        "csharp",
+        "ruby",
+        "php",
+        "swift",
+        "scala",
+        "shell",
+        "sql",
+        "lua",
+        "dart",
+        "elixir",
+        "erlang",
+        "haskell",
+        "clojure",
+        "fsharp",
+        "vue",
+        "svelte",
+        "astro",
+        "solidity",
+        "zig",
+        "nim",
+        "julia",
+        "r",
+        "terraform",
+        "hcl",
+        "nix",
+        "graphql",
+        "prisma"
+      ],
+      "checks": [
+        "Look for a second implementation of logic that already exists in the repository; reuse it or document why a separate copy is needed.",
+        "Look for dead branches, unused exports and leftover compatibility paths created by the change.",
+        "Report duplication only when it creates a maintenance or correctness risk; do not restate style preferences."
+      ]
+    },
+    {
+      "id": "cross-file-risk",
+      "area": "cross-file",
+      "description": "Fixed checks for the cross-file unit; the unit is generated deterministically, not by an agent.",
+      "appliesTo": "cross_file",
+      "checks": [
+        "Trace each changed interface, exported symbol or data shape to its callers and confirm every caller is updated.",
+        "Check configuration and behavior consistency: changed defaults, environment names and feature flags must match the code that reads them.",
+        "Check test impact across the change: which test units and fixtures must change, and which existing assertions now contradict the change.",
+        "Check deleted or renamed files and symbols for remaining references in code, build files, packaging and documentation.",
+        "Check for duplicate or parallel implementations introduced across the changed files and decide whether they create a real risk.",
+        "Check the overall diff for an incomplete change: one side of a contract updated without the other."
+      ]
+    }
+  ]
+}
