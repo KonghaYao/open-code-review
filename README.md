@@ -1,206 +1,167 @@
-<div align="center">
-  <a href="https://open-codereview.ai">
-    <img src="imgs/logo-core.svg" alt="OpenCodeReview logo" width="180" />
-  </a>
-  <h1>OpenCodeReview</h1>
-</div>
+# peri-code-review
 
-<p align="center">
-  <a href="https://trendshift.io/repositories/41087?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-41087" target="_blank" rel="noopener noreferrer">
-    <img src="https://trendshift.io/api/badge/repositories/41087" alt="alibaba%2Fopen-code-review | Trendshift" style="width: 280px; height: 60px;" width="280" height="60" />
-  </a>
-</p>
-<p align="center">
-  <a href="https://trendshift.io/repositories/41087" target="_blank">
-    <img src="https://trendshift.io/api/badge/trendshift/repositories/41087/weekly" alt="alibaba%2Fopen-code-review | Trendshift" style="width: 280px; height: 60px;" width="280" height="60" />
-  </a>
-  <a href="https://trendshift.io/repositories/41087" target="_blank">
-    <img src="https://trendshift.io/api/badge/trendshift/repositories/41087/monthly?language=Go" alt="alibaba%2Fopen-code-review | Trendshift" style="width: 280px; height: 60px;" width="280" height="60" />
-  </a>
-</p>
-<p align="center">
-  <a href="https://www.npmjs.com/package/@alibaba-group/open-code-review"><img alt="npm" src="https://img.shields.io/npm/v/@alibaba-group/open-code-review?style=flat-square" /></a>
-  <a href="https://github.com/alibaba/open-code-review/actions/workflows/release.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/alibaba/open-code-review/release.yml?style=flat-square" /></a>
-  <a href="https://github.com/alibaba/open-code-review/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/alibaba/open-code-review?style=flat-square" /></a>
-  <a href="https://deepwiki.com/alibaba/open-code-review"><img alt="Ask DeepWiki" src="https://img.shields.io/badge/Ask-DeepWiki-blue?style=flat-square" /></a>
-  <a href="https://www.bestpractices.dev/projects/13328"><img alt="OpenSSF Best Practices" src="https://img.shields.io/badge/OpenSSF-Gold-D4AF37?style=flat-square" /></a>
-</p>
-<p align="center">
-  <a href="#supported-platforms"><img alt="Windows" src="https://img.shields.io/badge/Windows-supported-blue.svg" /></a>
-  <a href="#supported-platforms"><img alt="macOS" src="https://img.shields.io/badge/macOS-supported-blue.svg" /></a>
-  <a href="#supported-platforms"><img alt="Linux" src="https://img.shields.io/badge/Linux-supported-blue.svg" /></a>
-  <a href="#supported-agents"><img alt="Claude Code" src="https://img.shields.io/badge/Claude_Code-supported-blueviolet.svg" /></a>
-  <a href="#supported-agents"><img alt="Codex" src="https://img.shields.io/badge/Codex-supported-blueviolet.svg" /></a>
-  <a href="#supported-agents"><img alt="Cursor" src="https://img.shields.io/badge/Cursor-supported-blueviolet.svg" /></a>
-  <a href="#supported-agents"><img alt="Kimi Code" src="https://img.shields.io/badge/Kimi_Code-supported-blueviolet.svg" /></a>
-</p>
-<p align="center">
-  English | <a href="docs/i18n/README.zh-CN.md">简体中文</a> | <a href="docs/i18n/README.ja-JP.md">日本語</a> | <a href="docs/i18n/README.ko-KR.md">한국어</a> | <a href="docs/i18n/README.ru-RU.md">Русский</a>
-</p>
+`peri-code-review` is the Model Context Protocol (MCP) server that exposes code
+review to Peri. It freezes a Git input, splits it into review units, serves
+bounded read-only context, validates finding anchors against the frozen
+snapshot, records verdicts, computes coverage and derives the report.
 
----
+The server does not call a model, does not create agents, does not edit the
+repository and does not run shell commands on behalf of a caller. Peri owns the
+Skill and Agent execution: the server publishes the Skill and Agent definitions,
+and the host decides which roles run and with which tools.
 
-## What is Open Code Review?
-
-Open Code Review is an AI-powered code review CLI tool. It originated as Alibaba Group's internal official AI code review assistant — over the past two years, it has served tens of thousands of developers and identified millions of code defects. After thorough validation at massive scale, we incubated it into an open source project for the community. Simply configure a model endpoint to get started.
-
-It reads Git diffs, sends changed files to a configurable LLM via an agent with tool-use capabilities, and generates structured review comments with line-level precision. The agent can read full file contents, search the codebase, inspect other changed files for context, and produce deep reviews — not just surface-level diff feedback. Beyond diff review, `ocr scan` reviews entire files for auditing unfamiliar codebases or directories that have no meaningful diff.
-
-Visit the [official website](https://open-codereview.ai) for more details.
-
-![Highlights](imgs/highlights-en.png)
-
-## Benchmark
-
-> Compared to general-purpose agents (Claude Code), Open Code Review achieves significantly higher **Precision** and **F1** with the same underlying model, while consuming only **~1/9 of the tokens** and completing reviews faster. Note that its Recall is lower than general-purpose agents — a deliberate trade-off favoring precision over noise.
-
-A real-world code review benchmark built from **50** popular open-source repositories, **200** real Pull Requests, and **10** programming languages — cross-validated by 80+ senior engineers (**1,505** annotated ground-truth issues).
-
-<a href="https://huggingface.co/datasets/Alibaba-Aone/aacr-bench"><img src="https://huggingface.co/favicon.ico" alt="Hugging Face" width="20" height="20" /> Explore the AACR-Bench dataset on Hugging Face</a>.
-
-| Metric | What it measures | Why it matters |
-|--------|-----------------|----------------|
-| **F1** | Harmonic mean of precision and recall | Best single number for overall review quality |
-| **Precision** | Proportion of reported issues that are real defects | Higher = fewer false alarms to triage |
-| **Recall** | Proportion of real defects that are found | Higher = fewer issues slip through review |
-| **Avg Time** | Wall-clock time per review | Matters for CI pipeline latency |
-| **Avg Token** | Total tokens consumed per review | Directly impacts API cost |
-
-![Benchmark](imgs/benchmark-en.png)
-
-## Why Open Code Review?
-
-### The Problem with General-Purpose Agents
-
-If you've used general-purpose agents like Claude Code with Skills for code review, you've likely encountered these pain points:
-
-- **Incomplete coverage** — On larger changesets, agents tend to "cut corners," selectively reviewing only some files and missing others.
-- **Position drift** — Reported issues frequently don't match the actual code location, with line numbers or file references drifting off target.
-- **Unstable quality** — Natural-language-driven Skills are hard to debug, and review quality fluctuates significantly with minor prompt variations.
-
-The root cause: a purely language-driven architecture lacks hard constraints on the review process.
-
-### Core Design: Deterministic Engineering × Agent Hybrid
-
-Open Code Review's core philosophy is to combine deterministic engineering with an agent, each handling what it does best.
-
-**Deterministic Engineering — Hard Constraints**
-
-For review steps that *must not go wrong*, engineering logic — not the language model — guarantees correctness:
-
-- **Precise file selection** — Determines exactly which files need review and which should be filtered, ensuring no important change is missed.
-- **Smart file bundling** — Groups related files into a single review unit (e.g., `message_en.properties` and `message_zh.properties` are bundled together). Each bundle runs as a sub-agent with isolated context — a divide-and-conquer strategy that stays stable on very large changesets and naturally supports concurrent review.
-- **Fine-grained rule matching** — Matches review rules to each file's characteristics, keeping the model's attention sharply focused and eliminating information noise at the source. Compared to purely language-driven rule guidance, template-engine-based rule matching is more stable and predictable.
-- **External positioning and reflection modules** — Independent comment-positioning and comment-reflection modules systematically improve both the location accuracy and content accuracy of AI feedback.
-
-**Agent — Dynamic Decision-Making**
-
-The agent's strengths are concentrated where they matter most — dynamic decisions and dynamic context retrieval:
-
-- **Scenario-tuned prompts** — Prompt templates deeply optimized for code review, improving effectiveness while reducing token consumption.
-- **Scenario-tuned toolset** — Distilled from deep analysis of tool-call traces in large-scale production data — including call frequency distributions, per-tool repetition rates, and the impact of new tools on the overall call chain — resulting in a purpose-built toolset that is more stable and predictable for code review than a generic agent toolkit.
-
-## How to Use
-
-### Prerequisites
-
-- **Git >= 2.41** — Open Code Review relies on Git for diff generation, code search, and repository operations.
-
-### CLI
-
-#### Install
-
-```bash
-npm install -g @alibaba-group/open-code-review
+```
+Peri host (model calls, agents, approvals)
+        |
+        |  MCP over stdio (JSON-RPC 2.0)
+        v
+peri-code-review  --  reviewcore (units, findings, coverage, report)
+                  --  reviewrepo (git snapshot, immutable reader)
+                  --  reviewstore (run files, request keys, locks)
 ```
 
-After installation, the `ocr` command is available globally.
+## Requirements
 
-For other installation methods (install script, GitHub Release binary, from source), see [Installation](https://open-codereview.ai/docs/installation).
+- A Go toolchain satisfying `go.mod` (Go 1.26.9).
+- `git` on `PATH`. The server shells out to git for read-only commands.
+- A Git work tree. `--repo` may point at any directory inside it; the server
+  binds the repository top level reported by `git rev-parse --show-toplevel`.
+- A state directory outside the repository. The server refuses to start when
+  the state directory is inside the work tree.
 
-#### Quick Start
+No model credentials are needed: this process never talks to a model provider.
 
-**1. Configure LLM**
+## Build
 
-You must configure an LLM before reviewing code, unless you use [Delegation Mode](https://open-codereview.ai/docs/delegate).
-
-```bash
-ocr config provider          # Select a built-in provider or add a custom one
-ocr config model             # Pick a model for the active provider
+```sh
+make build
 ```
 
-![Provider setup](imgs/providers.jpg)
+The binary is written to `bin/peri-code-review`. Other useful targets:
 
-The interactive UI guides you through provider selection, API key entry, and model configuration, then automatically tests connectivity.
+| Target | Purpose |
+| - | - |
+| `make test` | Run the Go tests with `LC_ALL=C`. |
+| `make vet` | Run `go vet`. |
+| `make check` | License and English checks, formatting, tidy and vet. |
+| `make coverage` | Report statement coverage. |
+| `make clean` | Remove `bin/` and `coverage.out`. |
 
-For CLI setup, environment variables, custom providers, and other advanced configuration, see [Configuration](https://open-codereview.ai/docs/configuration).
+## Run
 
-**2. Review**
-
-```bash
-cd your-project
-
-# Workspace mode — review all staged, unstaged, and untracked changes
-ocr review
-
-# Branch range — reviews feature-branch's changes since it diverged from main (merge-base mode)
-ocr review --from main --to feature-branch
-
-# Single commit
-ocr review --commit abc123
-
-# Resume an interrupted range or commit review
-ocr session list
-ocr review --from main --to feature-branch --resume <session-id>
-
-# Full-file scan — review whole files instead of a diff (no git history needed)
-ocr scan                          # scan the entire repository
-ocr scan --path internal/agent    # scan a directory or specific files
-ocr scan --resume <session-id>   # resume an interrupted full-file scan
-
-# Save results to a file (recommended for AI host agents)
-ocr review --format json --output result.json
-
-# Delegation mode — let your AI coding agent perform the review itself
-# OCR handles file selection and rule resolution; no LLM configuration needed
-ocr delegate preview
-ocr delegate rule src/main.go src/handler.go
+```sh
+./bin/peri-code-review serve --repo /absolute/path/to/repository
 ```
+
+The process speaks newline-delimited JSON-RPC on stdin/stdout and writes all
+diagnostics to stderr. Run it as a stdio MCP server; do not run it in a
+terminal expecting interactive input.
+
+| Flag | Environment | Default | Meaning |
+| - | - | - | - |
+| `--repo` | - | current directory | Repository to bind. The git top level becomes the root. |
+| `--state-dir` | `PERI_CODE_REVIEW_STATE_DIR` | `os.UserCacheDir()/peri-code-review` | Runs, request-key index, locks and frozen snapshots. Must be outside the repository. |
+
+An explicit `--state-dir` wins over `PERI_CODE_REVIEW_STATE_DIR`, which wins
+over the cache default. `./bin/peri-code-review version` prints the embedded
+version string. Invalid usage exits with status 2; a startup failure exits with
+status 1 and a single `peri-code-review: ...` line on stderr.
+
+The state directory holds `requests.json`, `runs/<review_id>/state.json`,
+`locks/` and `snapshots/<snapshot_id>/`. Run directories are created with mode
+0700 because they contain repository content.
+
+## Peri configuration
+
+Add one stdio server. Keep the server name `peri-code-review` unless you also
+update every place that projects the Agent names.
+
+```json
+{
+  "mcpServers": {
+    "peri-code-review": {
+      "command": "/absolute/path/to/bin/peri-code-review",
+      "args": [
+        "serve",
+        "--repo",
+        "/absolute/path/to/repository"
+      ],
+      "env": {
+        "PERI_CODE_REVIEW_STATE_DIR": "/absolute/path/to/review-state"
+      },
+      "system_mcp": true,
+      "system_mcp_tools": [
+        "review_prepare",
+        "review_context",
+        "review_status",
+        "review_submit",
+        "review_verify",
+        "review_finish"
+      ]
+    }
+  }
+}
+```
+
+`system_mcp: true` makes the server a startup dependency of the Peri React
+loop, and `system_mcp_tools` lists the exact tool names that must be present at
+their original names before the first model turn. Tools not listed there stay
+behind the `mcp__<server>__<tool>` prefix. The same configuration is kept in
+[`docs/peri-mcp/peri-config.example.json`](docs/peri-mcp/peri-config.example.json).
+
+## Tools
+
+The server exposes exactly six tools.
+
+| Tool | Access | Purpose |
+| - | - | - |
+| `review_prepare` | write | Freeze a range, commit or workspace into an immutable snapshot, plan review units and return the first page. |
+| `review_context` | read | Read a unit with its rules, a diff slice, a file slice, the manifest, a search result or rule groups from the frozen snapshot. |
+| `review_status` | read | Read progress: summary, coverage, units, findings, verifications, report or gaps. Safe to poll. |
+| `review_submit` | write | Atomically commit one unit outcome and its findings. One invalid finding rejects the batch. |
+| `review_verify` | write | Record one independent verdict for a finding with optimistic revision checking. |
+| `review_finish` | write | Seal a run: `finalize` requires every required unit and finding to be complete; `close_partial` and `cancel` preserve explicit partial results and gaps. |
+
+Every write takes a stable `request_key`; retries must reuse the key. All
+review tool results carry `schema_version` with the value
+`peri-code-review/v1`. Business errors set `isError: true` and return a JSON
+object with a stable `code` such as `REVISION_CONFLICT` or
+`IDEMPOTENCY_CONFLICT`.
+
+## Resources and skills
+
+- `skill://project/review/SKILL.md` describes the review workflow.
+- `agent://project/code-reviewer/agent.md` and
+  `agent://project/review-verifier/agent.md` define the two review roles.
+- `review://runs/{review_id}/report.json` and `report.md` are the report
+  templates.
+- The `io.modelcontextprotocol/skills` extension provides `skills/list` and
+  `skills/get`.
+
+The server negotiates protocol version `2026-07-28` and advertises `tools`,
+`resources` and the Skills extension. It does not provide `prompts`, `logging`,
+`sampling` or `roots`, and never calls back into the client.
 
 ## Documentation
 
-Full documentation lives at **[open-codereview.ai/docs](https://open-codereview.ai/docs)**:
-
-- [Quickstart](https://open-codereview.ai/docs/quickstart) — install and run your first review
-- [Installation](https://open-codereview.ai/docs/installation) — all platforms and package managers
-- [CLI Reference](https://open-codereview.ai/docs/cli-reference) — every command and flag
-- [Review Rules](https://open-codereview.ai/docs/review-rules) — customize review rules with path filtering and targeting
-- [Configuration](https://open-codereview.ai/docs/configuration) — config keys and environment variables
-- [MCP Server](https://open-codereview.ai/docs/mcp) — extend the review agent with external tools
-- Coding Agent Integrations — choose the platform you use
-  - [Claude Code](plugins/open-code-review/README.md#claude-code) — install a plugin with review slash commands
-  - [Codex](plugins/open-code-review/README.md#codex) — install a plugin with callable review skills
-  - [Cursor](plugins/open-code-review/README.md#cursor) — install a plugin with portable review skills
-  - [Kimi Code](plugins/open-code-review/README.md#kimi-code) — install a plugin with review slash commands and skills
-  - [OpenCode](plugins/open-code-review/opencode/README.md) — install native review tools and slash commands
-  - [QCA Forward](plugins/open-code-review/qca/README.md) — run delegation mode with the QCA host model and a ready-to-publish template
-  - [Skill-compatible agents](https://open-codereview.ai/docs/agent-skill) — install the portable agent skill
-- Review Execution Modes — after integration, choose which LLM performs the review
-  - [Default (OCR-managed)](https://open-codereview.ai/docs/configuration) — OCR runs the review using its configured LLM
-  - [Delegation Mode](https://open-codereview.ai/docs/delegate) — your coding agent runs the review using its own LLM; no OCR API key required
-- [CI/CD Integration](https://open-codereview.ai/docs/cicd) — GitHub Actions, GitLab CI, GitFlic CI, and Gerrit integration
-- [Session Viewer](https://open-codereview.ai/docs/viewer) — browse and replay review sessions in browser, mark comments as fixed or ignored and hide them while you work through the findings
-- [Telemetry](https://open-codereview.ai/docs/telemetry) — OpenTelemetry integration for observability
-- [FAQ](https://open-codereview.ai/docs/faq) — common questions and troubleshooting
+- [`docs/peri-mcp/README.md`](docs/peri-mcp/README.md): build, run, Peri
+  configuration and the protocol surface.
+- [`docs/peri-mcp/contract.md`](docs/peri-mcp/contract.md): tool inputs and
+  outputs, idempotency keys, error codes, run lifecycle, coverage rules,
+  resource URIs and the Skills wire shape.
+- [`docs/peri-mcp/real-peri-checklist.md`](docs/peri-mcp/real-peri-checklist.md):
+  steps and assertions for a joint test against a real Peri installation.
+- [`docs/peri-mcp/peri-config.example.json`](docs/peri-mcp/peri-config.example.json):
+  the configuration shown above.
 
 ## Contributing
 
-This project exists thanks to all the people who contribute. See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, coding guidelines, and how to submit pull requests.
-
-<a href="https://github.com/alibaba/open-code-review/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=alibaba/open-code-review" />
-</a>
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) and
+[`AGENTS.md`](AGENTS.md). Commit messages are written in English, source files
+carry SPDX headers and are English-only.
 
 ## License
 
-[Apache-2.0](LICENSE) — Copyright 2026 Alibaba
+Apache-2.0. See [`LICENSE`](LICENSE). The review domain code originates from
+[`alibaba/open-code-review`](https://github.com/alibaba/open-code-review) and
+retains its upstream copyright notices.

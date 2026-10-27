@@ -275,9 +275,8 @@ type composedResolver struct {
 // (currently only ".m": MATLAB vs Objective-C). The zero value is valid and
 // makes content reads fall back to the working tree.
 type ResolverOptions struct {
-	// Ref is the git ref whose content should be inspected — the review head
-	// (--to) in range mode, or --commit in commit mode. Empty reads the
-	// working tree, which is what `ocr scan` and `ocr rules check` want.
+	// Ref is the git ref whose content should be inspected. Empty reads the
+	// working tree.
 	Ref string
 
 	// Runner bounds concurrent git subprocesses. Optional; when nil the
@@ -286,7 +285,7 @@ type ResolverOptions struct {
 }
 
 // NewResolver builds a Resolver with the following priority:
-//  1. Custom rule file specified via --rule flag (first match wins)
+//  1. Custom rule file supplied by the caller (first match wins)
 //  2. Project-local .opencodereview/rule.json (first match wins)
 //  3. Global ~/.opencodereview/rule.json (first match wins)
 //  4. Embedded system default rules
@@ -402,11 +401,12 @@ func loadRuleFile(path string) (*ProjectRule, error) {
 	return &pr, nil
 }
 
-// loadProjectRule reads <repoDir>/.opencodereview/rule.json. Since #287 anchored
-// RepoDir at the git top-level, `ocr review` from a monorepo subdirectory loads
-// the repo-root rule file — which is consistent, since rule entries match against
-// root-relative diff paths. A subproject-local rule.json under the subdirectory is
-// intentionally not consulted; put shared rules at the repo root, or pass --rule.
+// loadProjectRule reads <repoDir>/.opencodereview/rule.json. The repo directory
+// is anchored at the git top-level, so a review started from a monorepo
+// subdirectory loads the repo-root rule file — which is consistent, since rule
+// entries match against root-relative diff paths. A subproject-local rule.json
+// under the subdirectory is intentionally not consulted; put shared rules at the
+// repo root, or supply a custom rule file.
 func loadProjectRule(repoDir string) (*ProjectRule, error) {
 	confineRoot, err := pathutil.CanonicalPath(repoDir)
 	if err != nil {
@@ -422,7 +422,7 @@ func loadProjectRule(repoDir string) (*ProjectRule, error) {
 		return nil, fmt.Errorf("resolve project rule %s: %w", path, err)
 	}
 	if !pathutil.WithinBase(confineRoot, resolved) {
-		fmt.Fprintf(os.Stderr, "[ocr] WARNING: project rule file escapes repo dir: %s\n", path)
+		fmt.Fprintf(os.Stderr, "[peri-code-review] WARNING: project rule file escapes repo dir: %s\n", path)
 		return nil, nil
 	}
 
@@ -592,7 +592,7 @@ func resolveRuleEntries(entries []ProjectRuleEntry, repoDir string, confineRoot 
 func tryReadRuleFile(rule string, repoDir string, confineRoot string) *string {
 	if repoDir == "" {
 		if !filepath.IsAbs(rule) {
-			fmt.Fprintf(os.Stderr, "[ocr] WARNING: cannot resolve relative rule path %q without a repo dir\n", rule)
+			fmt.Fprintf(os.Stderr, "[peri-code-review] WARNING: cannot resolve relative rule path %q without a repo dir\n", rule)
 			return nil
 		}
 	}
@@ -602,9 +602,9 @@ func tryReadRuleFile(rule string, repoDir string, confineRoot string) *string {
 			return &content
 		}
 		if os.IsNotExist(err) {
-			fmt.Fprintf(os.Stderr, "[ocr] WARNING: rule file not found: %s\n", rule)
+			fmt.Fprintf(os.Stderr, "[peri-code-review] WARNING: rule file not found: %s\n", rule)
 		} else {
-			fmt.Fprintf(os.Stderr, "[ocr] WARNING: cannot read rule file %s: %v\n", rule, err)
+			fmt.Fprintf(os.Stderr, "[peri-code-review] WARNING: cannot read rule file %s: %v\n", rule, err)
 		}
 		return nil
 	}
@@ -613,7 +613,7 @@ func tryReadRuleFile(rule string, repoDir string, confineRoot string) *string {
 	resolved := filepath.Clean(filepath.Join(repoDir, rule))
 	cleanRepo := filepath.Clean(repoDir)
 	if !strings.HasPrefix(resolved, cleanRepo+string(os.PathSeparator)) {
-		fmt.Fprintf(os.Stderr, "[ocr] WARNING: rule file path escapes repo dir: %s\n", rule)
+		fmt.Fprintf(os.Stderr, "[peri-code-review] WARNING: rule file path escapes repo dir: %s\n", rule)
 		return nil
 	}
 
@@ -622,9 +622,9 @@ func tryReadRuleFile(rule string, repoDir string, confineRoot string) *string {
 		return &content
 	}
 	if os.IsNotExist(err) {
-		fmt.Fprintf(os.Stderr, "[ocr] WARNING: rule file not found: %s\n", rule)
+		fmt.Fprintf(os.Stderr, "[peri-code-review] WARNING: rule file not found: %s\n", rule)
 	} else {
-		fmt.Fprintf(os.Stderr, "[ocr] WARNING: cannot read rule file %s: %v\n", resolved, err)
+		fmt.Fprintf(os.Stderr, "[peri-code-review] WARNING: cannot read rule file %s: %v\n", resolved, err)
 	}
 	return nil
 }

@@ -9,16 +9,14 @@ Use a disposable repository with a branch, a commit and one modified file.
 
 ## 1. Build
 
-- [ ] Run `make build-peri-mcp` and confirm it writes `bin/peri-code-review`.
+- [ ] Run `make build` and confirm it writes `bin/peri-code-review`.
 - [ ] Run `./bin/peri-code-review version` and confirm it prints a version
   string.
 - [ ] Run `./bin/peri-code-review` with no arguments and confirm it prints
   `usage: peri-code-review serve [--repo PATH] [--state-dir PATH]` to stderr and
   exits with status 2.
 
-`make build` also builds this binary, followed by the original
-`dist/opencodereview`. Building only the MCP server is enough for this
-checklist.
+The MCP server is the only build target.
 
 ## 2. Configure Peri
 

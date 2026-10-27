@@ -1,48 +1,25 @@
-# IDEA
+# Build output
+/bin/
+coverage.out
+coverage.html
+
+# Local Go module overlay used for offline or older-toolchain verification
+go.local.mod
+go.local.sum
+
+# Review state must live outside the repository; ignore a local override
+/.peri-code-review/
+
+# IDE
 .idea/
 *.iml
 *.ipr
 *.iws
 
-dist/
-npm/*/bin/
-coverage.out
-coverage.html
-.claude/plans
-.claude/commands/comment.md
-.claude/commands/read-issue.md
-.claude/settings.local.json
+# OS
+.DS_Store
 
-pages/package-lock.json
-scripts/hooks/
-scripts/publish/.env.internal
-CHANGELOG.md
-
+# Local scratch
 vendor/
 temp/
 .codegraph/
-
-# Ignore downloaded Go binary, but keep JS entry point
-!bin/ocr.js
-bin/ocr
-bin/opencodereview
-bin/peri-code-review
-
-/opencodereview
-
-/node_modules
-
-# Mac OS X
-.DS_Store
-
-# Eclipse git ignore#
-.project
-.classpath
-.settings/
-*.factorypath
-
-*.run.xml
-**/spoon.classpath.tmp
-# Python
-__pycache__/
-*.py[cod]

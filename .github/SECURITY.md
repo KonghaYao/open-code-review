@@ -2,69 +2,55 @@
 
 ## Supported Versions
 
-| Version | Supported          |
-|---------|--------------------|
-| Latest  | :white_check_mark: |
-| < Latest | :x:               |
+| Version | Supported |
+| - | - |
+| Latest | Yes |
+| Older | No |
 
-Only the latest released version receives security updates. Users are encouraged to upgrade promptly.
-
-## AI Policy
-
-You are welcome to use AI or LLM tools while investigating a vulnerability, but the responsibility for anything you submit rests entirely with you. Treat whatever a model produces as an unverified draft, and confirm it is correct before relying on it in a report. Whenever AI or LLMs played a role in your research or in writing up your findings, tell us where and how you used them, and include the prompts so we can reproduce your reasoning.
-
-Machine-generated text is usually longer than it needs to be, and brevity matters to us. Please cut AI-written content down to what is essential before sending it over: every report is read in full by a maintainer, and a focused one is a faster fix.
+Only the latest released version receives security updates.
 
 ## Reporting a Vulnerability
 
-**Please do NOT report security vulnerabilities through public GitHub issues.**
+**Please do not report security vulnerabilities through public issues.**
 
-Instead, use **GitHub Private Vulnerability Reporting** — go to the [Security Advisories](https://github.com/alibaba/open-code-review/security/advisories/new) page and submit a new advisory.
+Use GitHub's private vulnerability reporting for this repository: open the
+**Security** tab and choose **Report a vulnerability**. If private reporting is
+unavailable, contact the maintainers privately through a channel listed on
+their GitHub profiles.
 
 ### What to Include
 
 - A description of the vulnerability and its potential impact.
 - Step-by-step instructions to reproduce the issue.
-- Affected version(s).
+- Affected version(s) and platform.
 - Any suggested fix or mitigation, if available.
-
-## Response Timeline
-
-- **Acknowledgment**: within **3 business days** of receiving your report.
-- **Initial Assessment**: within **7 business days**.
-- **Fix & Disclosure**: we aim to release a fix within **14 days** for confirmed critical or high-severity issues, coordinating disclosure with the reporter.
 
 ## Scope
 
-The following are in scope for security reports:
+The `peri-code-review` MCP server is in scope. Examples:
 
-- Remote code execution or command injection via crafted diffs, configs, or LLM responses.
-- Credential or API key leakage through logs, telemetry, or output files.
-- Path traversal allowing reads/writes outside the intended working directory.
-- Vulnerabilities in dependencies that are exploitable through this project.
+- Path traversal or symlink escapes that read outside the bound repository.
+- A state directory or snapshot that leaks into the reviewed work tree.
+- Review of mutable input instead of the frozen snapshot.
+- Request-key, idempotency or lock handling that corrupts run state.
+- Command injection through Git arguments or repository paths.
 
 Out of scope:
 
-- Issues in third-party LLM providers or APIs.
-- Denial-of-service attacks that require local access.
+- Vulnerabilities in Peri itself, in the host model, or in third-party
+  dependencies that are not exploitable through this server.
+- Denial of service that requires local access to the process.
 - Social engineering attacks.
 
-## Release Signatures
+## AI Policy
 
-All release binaries and checksums are signed using [GitHub Artifact Attestations](https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-artifact-attestations-to-establish-provenance-for-builds) (Sigstore). Signatures are keyless — backed by GitHub Actions OIDC, with no long-lived private key. Version tags are signed with SSH keys via `git tag -s`.
+You may use AI or LLM tools while investigating a vulnerability, but the
+responsibility for anything you submit rests entirely with you. Treat
+model-generated text as an unverified draft and disclose how AI was used.
+Keep reports focused on what a maintainer needs to reproduce and fix the issue.
 
-To verify a downloaded binary:
+## Response Timeline
 
-```bash
-gh attestation verify opencodereview-linux-amd64 --repo alibaba/open-code-review
-```
-
-To verify a version tag:
-
-```bash
-git tag -v v1.6.4
-```
-
-## Recognition
-
-We appreciate the security research community's efforts. Reporters who follow responsible disclosure will be credited in the release notes (unless they prefer to remain anonymous).
+- Acknowledgment: within 3 business days.
+- Initial assessment: within 7 business days.
+- Fix and coordinated disclosure: as soon as practical for confirmed issues.

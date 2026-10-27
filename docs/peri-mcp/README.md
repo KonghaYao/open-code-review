@@ -34,13 +34,11 @@ peri-code-review  --  reviewcore (units, findings, coverage, report)
 ## Build
 
 ```sh
-make build-peri-mcp
+make build
 ```
 
-The binary is written to `bin/peri-code-review`. `make build` builds it too,
-then builds the original `dist/opencodereview` CLI as before. The `bin/`
-directory also holds the npm entry scripts, so `make clean` removes only the
-`peri-code-review` binary from it.
+The binary is written to `bin/peri-code-review`. `make test`, `make vet` and
+`make check` run the test suite and the repository checks.
 
 ## Run
 

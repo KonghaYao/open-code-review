@@ -21,9 +21,8 @@ LICENSE_EXTS=(go js mjs ts tsx kt kts sh py css)
 
 IGNORED_PATHS=(
   "vendor/"
-  "dist/"
-  "node_modules/"
   "testdata/"
+  "bin/"
 )
 
 is_ignored() {
@@ -40,6 +39,7 @@ FAILED=()
 
 while IFS= read -r file; do
   [ -z "$file" ] && continue
+  [ -f "$file" ] || continue # deleted from the working tree but still indexed
   is_ignored "$file" && continue
 
   ext="${file##*.}"

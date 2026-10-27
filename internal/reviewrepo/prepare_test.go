@@ -21,7 +21,7 @@ func TestNewRejectsStateDirInsideRepository(t *testing.T) {
 	tr.write("a.txt", "a\n")
 	tr.commit("init")
 
-	_, err := New(tr.dir, filepath.Join(tr.dir, ".ocr-state"), Options{})
+	_, err := New(tr.dir, filepath.Join(tr.dir, ".review-state"), Options{})
 	requireCode(t, err, reviewcore.CodeInvalidInput)
 }
 

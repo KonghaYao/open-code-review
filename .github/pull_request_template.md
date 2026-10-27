@@ -1,35 +1,31 @@
 ## Description
 
-<!-- What does this PR do? Why is this change needed? -->
+<!-- What does this PR change, and why is it needed? -->
 
 ## Type of Change
 
-- [ ] Bug fix (non-breaking change that fixes an issue)
-- [ ] New feature (non-breaking change that adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to change)
-- [ ] Refactoring (no functional changes)
+- [ ] Bug fix
+- [ ] New feature or tool behavior
+- [ ] Protocol or contract change
+- [ ] Refactoring (no behavior change)
 - [ ] Documentation update
-- [ ] CI / Build / Tooling
+- [ ] CI, build or tooling
 
-## How Has This Been Tested?
-
-<!-- Describe the tests you ran to verify your changes. -->
-<!-- Include relevant details about your test configuration. -->
+## Verification
 
 - [ ] `make test` passes locally
-- [ ] Manual testing (describe below)
+- [ ] `make check` passes locally
+- [ ] I added or updated tests for behavior changes
+- [ ] I updated `docs/peri-mcp/contract.md` for protocol changes
 
 ## Checklist
 
-- [ ] My code follows the project's coding style (`go fmt`, `go vet`)
-- [ ] I have performed a self-review of my code
-- [ ] I have added tests that prove my fix is effective or my feature works
-- [ ] New and existing unit tests pass locally with my changes
-- [ ] I have updated the documentation accordingly (if applicable)
-- [ ] I have signed the CLA
-- [ ] I did not use AI/LLM to create this PR, or I disclosed the tool/model below and reviewed its output; I did not attribute commits to AI and will answer maintainer questions and review comments myself without AI/LLM.
+- [ ] SPDX headers are present on new source files
+- [ ] Source comments, identifiers and strings are English-only
+- [ ] I disclosed any AI/LLM assistance and reviewed all generated content
+- [ ] I did not attribute commits to AI/LLM
 
-<!-- Please disclose the model used here if AI was used. -->
+<!-- If AI was used, name the tools/models here. -->
 
 ## Related Issues
 

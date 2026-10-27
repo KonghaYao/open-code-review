@@ -22,10 +22,10 @@ discussions, chat, and events.
 
 ## Reporting
 
-Report incidents via [GitHub Issues](https://github.com/alibaba/open-code-review/issues)
-or [GitHub Discussions](https://github.com/alibaba/open-code-review/discussions).
-Include as much detail as possible (what happened, when/where, links, screenshots
-if applicable).
+Report incidents privately to the project maintainers through the contact
+information on their GitHub profiles or another private channel. Include as
+much detail as possible (what happened, when and where, links, screenshots if
+applicable).
 
 ## Enforcement
 

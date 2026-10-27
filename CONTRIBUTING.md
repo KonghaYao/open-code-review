@@ -1,22 +1,25 @@
-# Contributing to OpenCodeReview
+# Contributing to peri-code-review
 
-Thank you for your interest in contributing to OpenCodeReview! Every contribution matters — whether it's fixing a typo, reporting a bug, or implementing a new feature.
-
-[简体中文版](docs/i18n/CONTRIBUTING.zh-CN.md) | [日本語版](docs/i18n/CONTRIBUTING.ja-JP.md) | [한국어](docs/i18n/CONTRIBUTING.ko-KR.md) | [Русский](docs/i18n/CONTRIBUTING.ru-RU.md)
+Thank you for contributing to the `peri-code-review` MCP server. This project
+is MCP-only: it exposes code review state to Peri and never calls a model or
+runs an agent itself.
 
 ## Code of Conduct
 
-By participating in this project, you agree to maintain a respectful and inclusive environment. Please be kind and constructive in all interactions.
+By participating in this project, you agree to maintain a respectful and
+inclusive environment. Please be kind and constructive in all interactions. See
+[`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
 
 ## Ways to Contribute
 
-There are many ways to contribute beyond writing code:
+- Report bugs with reproduction steps.
+- Suggest improvements to the MCP tools, resources or contract.
+- Improve the documentation under [`docs/peri-mcp/`](docs/peri-mcp/).
+- Review pull requests.
+- Write code, tests or fixtures.
 
-- **Report bugs** — Found something broken? Open an issue with reproduction steps.
-- **Suggest features** — Have an idea for improvement? You can start a conversation in [GitHub Discussions](https://github.com/alibaba/open-code-review/discussions/categories/ideas) or open a [Feature Request](https://github.com/alibaba/open-code-review/issues/new?template=feature_request.yml) issue.
-- **Improve documentation** — Fix typos, clarify explanations, or add examples. You can also open a [Documentation Issue](https://github.com/alibaba/open-code-review/issues/new?template=docs_report.yml) to report problems.
-- **Review pull requests** — Help us review code from other contributors.
-- **Write code** — Fix bugs, add features, or improve performance.
+Do not propose model providers, agent orchestration, IDE extensions or a review
+CLI: those surfaces are out of scope for this repository.
 
 ## Getting Started
 
@@ -35,29 +38,27 @@ There are many ways to contribute beyond writing code:
 git clone https://github.com/<your-username>/open-code-review.git
 cd open-code-review
 
-# 3. Add upstream remote (for syncing updates from the main repo)
-git remote add upstream https://github.com/alibaba/open-code-review.git
+# 3. Add upstream remote (for syncing updates)
+git remote add upstream https://github.com/KonghaYao/open-code-review.git
 
-# 4. Build the project
+# 4. Build the MCP server
 make build
 
-# 5. Run tests
+# 5. Run the tests
 make test
 ```
 
-If everything passes, you're ready to contribute.
-
-> **Note:** The `upstream` remote is read-only for contributors — it is used to pull the latest changes from the main repository. You cannot push directly to upstream. All commits must be pushed to your fork (`origin`) and submitted via Pull Request.
+`make build` writes `bin/peri-code-review`. Run
+`./bin/peri-code-review version` to confirm the build.
 
 ### Line Endings
 
-This project enforces LF line endings via `.gitattributes`. Configure Git to normalize line endings automatically:
+This project enforces LF line endings via `.gitattributes`. Configure Git to
+normalize line endings automatically:
 
 ```bash
 git config core.autocrlf input
 ```
-
-This ensures any CRLF is converted to LF on commit, preventing line-ending issues in CI.
 
 ## Development Workflow
 
@@ -95,206 +96,62 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/) format:
 Examples:
 
 ```
-feat(agent): add support for custom tool definitions
-fix(llm): handle timeout errors in Anthropic API calls
-docs(README): update configuration examples
+feat(tools): add a bounds field to review_context
+fix(store): keep request keys stable across retries
+docs(contract): clarify review_finish outcomes
 ```
 
-`PR Commit Policy` checks the PR title and every commit's full message, including
-the body, case-insensitively. Do not include `[skip ci]`, `[ci skip]`, `[no ci]`,
-`[skip actions]`, `[actions skip]`, or a `skip-checks: true` / `skip-checks:true` line.
+Commit messages must be in English. Do not add AI attribution trailers.
 
-To fix failures, edit the PR title or rewrite affected commit messages on your
-contribution branch. Adding a clean commit does not remove earlier violations.
-PR descriptions may discuss these instructions and are not checked.
+### AI Assistance
+
+If you use AI/LLM tools, disclose that in your pull request and name the
+tools/models used. You must understand and review every generated line, and you
+must answer maintainer questions yourself. See
+[`AGENTS.md`](AGENTS.md) for the full rules.
 
 ### License Headers
 
-Every source file (`.go`, `.js`, `.mjs`, `.ts`, `.tsx`, `.kt`, `.kts`, `.sh`, `.py`, `.css`) must include an SPDX license header. After creating new files, run:
+Every source file must include an SPDX license header. After creating new
+files, run:
 
 ```bash
 make license-add
 ```
 
-This automatically adds the required header. CI will reject PRs with missing headers.
+`make license-check` verifies tracked source files.
 
-### Code Quality
+### Formatting and Checks
 
-Before submitting your changes, make sure they pass all checks:
+Run before opening a pull request:
 
 ```bash
-# Format, lint, and verify license headers
 make check
-
-# Run tests with race detection
 make test
-
-# Build successfully
-make build
 ```
 
-### Project Structure
+`make check` runs the license and English checks, formats and tidies the code,
+and runs `go vet`. `make test` sets `LC_ALL=C` so git emits English messages.
 
-```
-├── acp/                  # ACP adapter for the CLI
-├── bin/                  # NPM wrapper
-├── cmd/opencodereview/   # CLI entry point
-├── docs/                 # Localized README and CONTRIBUTING
-├── examples/             # CI/CD integration examples
-├── extensions/           # Editor extensions (VS Code and IDEA)
-├── imgs/                 # Logo, benchmark, and highlight images
-├── internal/
-│   ├── agent/            # Review agent logic
-│   ├── chatgptauth/      # ChatGPT OAuth and credential management
-│   ├── config/           # Configuration management
-│   ├── delegate/         # Delegation-mode review specs (no LLM)
-│   ├── diff/             # Git diff parsing
-│   ├── gitcmd/           # Bounded git subprocess runner
-│   ├── llm/              # LLM API client (Anthropic, Bedrock & OpenAI)
-│   ├── llmloop/          # Shared per-subtask tool-use loop
-│   ├── mcp/              # MCP server client and tool adapter
-│   ├── model/            # Data models
-│   ├── pathutil/         # Canonical paths and containment checks
-│   ├── release/          # Release asset URL naming checks
-│   ├── scan/             # Full-file code review (ocr scan)
-│   ├── session/          # Review session management
-│   ├── stdout/           # Swappable stdout writer
-│   ├── suggestdiff/      # Line-level diffs for suggestion rendering
-│   ├── telemetry/        # OpenTelemetry integration
-│   ├── tool/             # Built-in tools (file_read, code_search, etc.)
-│   └── viewer/           # WebUI session viewer
-├── npm/                  # Per-platform optional binary packages
-├── pages/                # Landing page
-├── plugins/              # Coding agent plugins
-├── scripts/              # Install, publish, and check scripts
-└── skills/               # Agent skill manifests
-```
+Source files are English-only. Do not put translated prose in code; Markdown
+documentation is not scanned and is the right place for translations.
 
-## AI-Assisted Development
+## Pull Requests
 
-Using AI to help with your development is perfectly welcome, and we are glad if it makes contributing easier. What we cannot accept is code that a model produced going straight into a commit unread, with none of its redundancy or mistakes cleaned up. Submissions like that slow down the review conversation and make a pull request harder to move forward.
+- Keep the change focused and explain the motivation in the PR description.
+- Include tests for behavior changes.
+- Update [`docs/peri-mcp/contract.md`](docs/peri-mcp/contract.md) when a tool
+  schema, error code, resource URI, idempotency rule or state layout changes.
+- Make sure CI passes: `go test ./...`, `go vet ./...`, the license check and
+  the English check.
+- Do not commit generated binaries, local state or `go.local.*` files.
 
-If AI played a part in how you worked, please follow the rules below.
+## Reporting Security Issues
 
-### Rules:
-
-1. **You must disclose in your initial issue or pull request that you used AI/LLM, as well as the tools/models you used.**
-2. You should understand every line of code written by AI and know what the AI did.
-3. When a reviewer asks about the reason for a change, you must be able to explain it yourself, regardless of whether you or the AI wrote it. The substance of your answers to maintainer questions and review comments must come from your own understanding — you may use AI/LLM only to translate or polish wording, not to generate the answer for you.
-4. Your PR should not contain repeated cycles like `AI generated -> fixed -> fixed -> fixed`. This may indicate that you did not review the AI-generated code, but instead let the AI fix issues as they arise, over and over.
-5. You must review all code, text, and other content generated by AI/LLM yourself before proactively requesting a review from any member.
-6. You must not attribute commits to AI/LLM, including through "Assisted-by", "Co-developed-by", or similar trailers.
-7. Do not write overly long commit messages. Important information should go in the PR description rather than in collapsed commit messages.
-8. If you are unwilling or unable to do all of the above, please close your issue or pull request.
-
-Thanks!
-
-## Contributing to Documentation
-
-Documentation is a crucial part of OpenCodeReview. We welcome improvements to README files, inline code comments, configuration examples, and any user-facing text.
-
-### What Counts as a Documentation Contribution
-
-- Fixing typos, grammar errors, or broken links
-- Clarifying confusing explanations or adding missing context
-- Adding usage examples for commands or configuration options
-- Updating outdated content (e.g., after a feature change)
-- Translating or improving localized documentation (`docs/i18n/README.zh-CN.md`, `docs/i18n/README.ja-JP.md`, `docs/i18n/README.ko-KR.md`, `docs/i18n/README.ru-RU.md`, `docs/i18n/CONTRIBUTING.zh-CN.md`, `docs/i18n/CONTRIBUTING.ja-JP.md`, `docs/i18n/CONTRIBUTING.ko-KR.md`, `docs/i18n/CONTRIBUTING.ru-RU.md`)
-
-### Documentation Workflow
-
-1. If you spot an issue but don't plan to fix it yourself, open a [Documentation Issue](https://github.com/alibaba/open-code-review/issues/new?template=docs_report.yml).
-2. If you'd like to fix it, fork the repo, make your changes, and submit a PR with the `docs/` branch prefix (e.g., `docs/fix-config-example`).
-3. Documentation-only PRs don't require test changes, but please verify that any commands or code snippets you include are accurate.
-
-### Documentation Files
-
-| File                              | Purpose                              |
-| --------------------------------- | ------------------------------------ |
-| `README.md`                       | Main project documentation (English) |
-| `docs/i18n/README.zh-CN.md`       | Chinese translation                  |
-| `docs/i18n/README.ja-JP.md`       | Japanese translation                 |
-| `docs/i18n/README.ko-KR.md`       | Korean translation                   |
-| `docs/i18n/README.ru-RU.md`       | Russian translation                  |
-| `CONTRIBUTING.md`                 | Contribution guide (English)         |
-| `docs/i18n/CONTRIBUTING.zh-CN.md` | Contribution guide (Chinese)         |
-| `docs/i18n/CONTRIBUTING.ja-JP.md` | Contribution guide (Japanese)        |
-| `docs/i18n/CONTRIBUTING.ko-KR.md` | Contribution guide (Korean)          |
-| `docs/i18n/CONTRIBUTING.ru-RU.md` | Contribution guide (Russian)         |
-
-## Submitting Changes
-
-### Opening an Issue
-
-Before working on a significant change, please open an issue first to discuss the approach. This prevents duplicate work and ensures your contribution aligns with the project's direction.
-
-When reporting a bug, include:
-
-1. OpenCodeReview version (`ocr version`)
-2. OS and architecture
-3. Steps to reproduce
-4. Expected vs. actual behavior
-5. Relevant logs or error messages
-
-### Pull Request Process
-
-1. **Keep PRs focused** — One logical change per PR. If you have multiple independent changes, submit separate PRs.
-2. **Write tests** — Add or update tests for any behavior changes.
-3. **Update docs** — If your change affects user-facing behavior, update the relevant documentation.
-4. **Sign the CLA** — All contributors must sign the Contributor License Agreement before their PR can be merged (see below).
-5. **Fill in the PR template** — Describe what your change does and why.
-
-### PR Title Format
-
-Use the same Conventional Commits format as commit messages:
-
-```
-feat(agent): add support for custom tool definitions
-```
-
-### Review Process
-
-- A maintainer will review your PR, usually within a few business days.
-- We may request changes — this is normal and collaborative, not adversarial.
-- Once approved, a maintainer will merge your PR.
-
-## Tips for Faster PR Reviews
-
-Want your PR to be reviewed and merged quickly? These practices help:
-
-- **Sign the CLA early** — Many first-time contributors get blocked because they miss the CLA bot comment. Sign the Contributor License Agreement as soon as the bot prompts you — your PR cannot be merged without it.
-- **Ensure all CI checks pass** — PRs with failing checks will not be reviewed. Run `make test` and `make build` locally before pushing to catch issues early.
-- **Keep changes focused and small** — A PR that does one thing well is far easier to review than one that mixes unrelated changes. Smaller PRs get reviewed faster and are less likely to require multiple rounds of revision.
-- **Write a clear, accurate description** — Explain *what* changed and *why*. The description must reflect the actual diff — reviewers lose trust when the two don't match. If the scope shifted during development, update the description before requesting review.
-- **Include tests for behavior changes** — New features or bug fixes without tests raise questions. Tests demonstrate correctness and help reviewers understand the intended behavior.
-- **Follow existing code patterns** — Match the style, naming conventions, and architecture of the surrounding code. Consistency reduces cognitive load for reviewers and avoids style-only review comments.
-- **Respond to feedback promptly** — When a reviewer requests changes, address them quickly to keep the review cycle short. If you disagree, explain your reasoning rather than ignoring the comment.
-
-## Contributor License Agreement (CLA)
-
-We require all contributors to sign the Alibaba Open Source Contributor License Agreement before we can merge your contributions. This ensures that the project can be distributed under its license terms.
-
-When you open your first PR, a CLA bot will post a comment with instructions. Simply follow the link to sign electronically — it only takes a minute.
-
-## First-Time Contributors
-
-New to the project? Look for issues labeled:
-
-- [`good first issue`](https://github.com/alibaba/open-code-review/labels/good%20first%20issue) — Small, well-scoped tasks ideal for getting started.
-- [`help wanted`](https://github.com/alibaba/open-code-review/labels/help%20wanted) — Issues where we'd appreciate community help.
-
-Some good areas to start:
-
-- Improving error messages and CLI output
-- Writing tests for untested code paths
-- Documentation improvements
-
-## Community
-
-- **Bug Reports** — [GitHub Issues](https://github.com/alibaba/open-code-review/issues)
-- **Feature Suggestions** — [GitHub Discussions (Ideas)](https://github.com/alibaba/open-code-review/discussions/categories/ideas) or [Feature Request Issue](https://github.com/alibaba/open-code-review/issues/new?template=feature_request.yml)
-- **Questions & Help** — If you have any questions about using OpenCodeReview, feel free to ask in [GitHub Discussions](https://github.com/alibaba/open-code-review/discussions)
+Do not open a public issue for a vulnerability. Use GitHub's private
+vulnerability reporting as described in [`.github/SECURITY.md`](.github/SECURITY.md).
 
 ## License
 
-By contributing to OpenCodeReview, you agree that your contributions will be licensed under the [Apache License 2.0](LICENSE).
+By contributing, you agree that your contributions are licensed under the
+Apache License 2.0, as described in [`LICENSE`](LICENSE).
