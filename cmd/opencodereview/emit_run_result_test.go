@@ -15,11 +15,11 @@ import (
 	"go.opentelemetry.io/otel"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 
-	"github.com/alibaba/open-code-review/internal/agent"
-	"github.com/alibaba/open-code-review/internal/llm"
-	"github.com/alibaba/open-code-review/internal/llmloop"
-	"github.com/alibaba/open-code-review/internal/model"
-	"github.com/alibaba/open-code-review/internal/session"
+	"github.com/KonghaYao/open-code-review/internal/agent"
+	"github.com/KonghaYao/open-code-review/internal/llm"
+	"github.com/KonghaYao/open-code-review/internal/llmloop"
+	"github.com/KonghaYao/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/session"
 )
 
 type mockResultProvider struct {

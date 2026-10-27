@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/session"
+	"github.com/KonghaYao/open-code-review/internal/session"
 )
 
 // writeScanResumeSession persists a full-scan session with the given completed

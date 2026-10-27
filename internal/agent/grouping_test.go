@@ -13,11 +13,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/config/rules"
-	"github.com/alibaba/open-code-review/internal/config/template"
-	"github.com/alibaba/open-code-review/internal/llm"
-	"github.com/alibaba/open-code-review/internal/model"
-	"github.com/alibaba/open-code-review/internal/stdout"
+	"github.com/KonghaYao/open-code-review/internal/config/rules"
+	"github.com/KonghaYao/open-code-review/internal/config/template"
+	"github.com/KonghaYao/open-code-review/internal/llm"
+	"github.com/KonghaYao/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/stdout"
 )
 
 type fakeGroupingClient struct {

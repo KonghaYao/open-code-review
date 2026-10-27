@@ -23,7 +23,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/alibaba/open-code-review/acp/internal/contract"
+	"github.com/KonghaYao/open-code-review/acp/internal/contract"
 )
 
 // mockBin is the compiled test double, built once per test binary run.

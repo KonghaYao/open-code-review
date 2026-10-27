@@ -22,7 +22,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/alibaba/open-code-review/internal/session"
+	"github.com/KonghaYao/open-code-review/internal/session"
 )
 
 // SessionsRoot returns the root directory where session JSONL files are stored.

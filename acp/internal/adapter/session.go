@@ -9,7 +9,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/alibaba/open-code-review/acp/internal/intent"
+	"github.com/KonghaYao/open-code-review/acp/internal/intent"
 	acp "github.com/coder/acp-go-sdk"
 )
 

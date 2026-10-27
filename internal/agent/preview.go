@@ -7,8 +7,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/alibaba/open-code-review/internal/diff"
-	"github.com/alibaba/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/diff"
+	"github.com/KonghaYao/open-code-review/internal/model"
 )
 
 // ExcludeReason / DiffPreview / DiffPreviewEntry are now type aliases of

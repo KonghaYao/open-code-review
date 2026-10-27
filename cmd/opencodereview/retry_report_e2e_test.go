@@ -10,8 +10,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/llm"
-	"github.com/alibaba/open-code-review/internal/session"
+	"github.com/KonghaYao/open-code-review/internal/llm"
+	"github.com/KonghaYao/open-code-review/internal/session"
 )
 
 // End-to-end coverage of the #368 P5 wiring: a real review run against the fake

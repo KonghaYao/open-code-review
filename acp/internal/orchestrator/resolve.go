@@ -16,7 +16,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/alibaba/open-code-review/acp/internal/orchestrator/process"
+	"github.com/KonghaYao/open-code-review/acp/internal/orchestrator/process"
 )
 
 // ResolveOptions controls OCR binary discovery. Explicit and Environment are

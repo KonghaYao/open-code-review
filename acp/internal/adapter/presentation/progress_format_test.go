@@ -10,8 +10,8 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/alibaba/open-code-review/acp/internal/contract"
-	"github.com/alibaba/open-code-review/acp/internal/orchestrator"
+	"github.com/KonghaYao/open-code-review/acp/internal/contract"
+	"github.com/KonghaYao/open-code-review/acp/internal/orchestrator"
 )
 
 func TestProgressLogPreservesLinesAndBounds(t *testing.T) {

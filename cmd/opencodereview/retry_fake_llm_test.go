@@ -17,7 +17,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/alibaba/open-code-review/internal/llm"
+	"github.com/KonghaYao/open-code-review/internal/llm"
 )
 
 // retryTestFixedTime is an arbitrary fixed instant for hand-fed attempt

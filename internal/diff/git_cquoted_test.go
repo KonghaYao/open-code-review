@@ -17,7 +17,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/gitcmd"
+	"github.com/KonghaYao/open-code-review/internal/gitcmd"
 )
 
 // cQuotedRelPath holds both escapes git emits under core.quotepath=false: a

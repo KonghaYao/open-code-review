@@ -10,14 +10,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/config/rules"
-	"github.com/alibaba/open-code-review/internal/config/template"
-	"github.com/alibaba/open-code-review/internal/llm"
-	"github.com/alibaba/open-code-review/internal/llmloop"
-	"github.com/alibaba/open-code-review/internal/model"
-	"github.com/alibaba/open-code-review/internal/session"
-	"github.com/alibaba/open-code-review/internal/stdout"
-	"github.com/alibaba/open-code-review/internal/tool"
+	"github.com/KonghaYao/open-code-review/internal/config/rules"
+	"github.com/KonghaYao/open-code-review/internal/config/template"
+	"github.com/KonghaYao/open-code-review/internal/llm"
+	"github.com/KonghaYao/open-code-review/internal/llmloop"
+	"github.com/KonghaYao/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/session"
+	"github.com/KonghaYao/open-code-review/internal/stdout"
+	"github.com/KonghaYao/open-code-review/internal/tool"
 )
 
 // fakeScanClient is a minimal LLM client for scan tests that returns

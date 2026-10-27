@@ -10,8 +10,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/config/rules"
-	"github.com/alibaba/open-code-review/internal/config/template"
+	"github.com/KonghaYao/open-code-review/internal/config/rules"
+	"github.com/KonghaYao/open-code-review/internal/config/template"
 )
 
 // initIdentityRepo builds a workspace with two reviewable files, one the

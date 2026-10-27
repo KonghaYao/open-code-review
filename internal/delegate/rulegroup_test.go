@@ -6,7 +6,7 @@ package delegate
 import (
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/config/rules"
+	"github.com/KonghaYao/open-code-review/internal/config/rules"
 )
 
 // stubResolver implements rules.Resolver only.

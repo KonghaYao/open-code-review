@@ -8,7 +8,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/tool"
+	"github.com/KonghaYao/open-code-review/internal/tool"
 )
 
 // silenceStderr redirects os.Stderr to /dev/null for the duration of fn so the

@@ -13,7 +13,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/alibaba/open-code-review/internal/llm"
+	"github.com/KonghaYao/open-code-review/internal/llm"
 )
 
 // rawSubDir is the subdirectory of ~/.opencodereview that holds the raw LLM

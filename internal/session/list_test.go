@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/alibaba/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/model"
 )
 
 func TestListSessions_EmptyRepoReturnsNil(t *testing.T) {

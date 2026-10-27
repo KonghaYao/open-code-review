@@ -11,9 +11,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/alibaba/open-code-review/internal/agent"
-	"github.com/alibaba/open-code-review/internal/model"
-	"github.com/alibaba/open-code-review/internal/session"
+	"github.com/KonghaYao/open-code-review/internal/agent"
+	"github.com/KonghaYao/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/session"
 )
 
 // --- SARIF v2.1.0 structure definitions (OASIS standard) ---
@@ -27,7 +27,7 @@ const (
 	sarifSchema         = "https://json.schemastore.org/sarif-2.1.0.json"
 	sarifVersion        = "2.1.0"
 	sarifToolName       = "OpenCodeReview"
-	sarifInformationURI = "https://github.com/alibaba/open-code-review"
+	sarifInformationURI = "https://github.com/KonghaYao/open-code-review"
 	sarifFingerprintKey = "ocrFinding/v1"
 )
 

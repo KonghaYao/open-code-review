@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/alibaba/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/model"
 )
 
 // BatchStrategy enumerates the grouping policies for scan dispatch.

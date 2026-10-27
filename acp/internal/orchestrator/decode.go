@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/alibaba/open-code-review/acp/internal/contract"
+	"github.com/KonghaYao/open-code-review/acp/internal/contract"
 )
 
 func decodeResult(args []string, stdout []byte) (*Result, error) {

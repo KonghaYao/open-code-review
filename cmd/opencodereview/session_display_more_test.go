@@ -6,7 +6,7 @@ package main
 import (
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/session"
+	"github.com/KonghaYao/open-code-review/internal/session"
 )
 
 // TestDisplayMode covers the empty and non-empty branches.

@@ -15,7 +15,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/alibaba/open-code-review/acp/internal/testutil"
+	"github.com/KonghaYao/open-code-review/acp/internal/testutil"
 )
 
 func TestRealBinaryUnreadStdoutExits(t *testing.T) {

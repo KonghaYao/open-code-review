@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	tea "charm.land/bubbletea/v2"
-	"github.com/alibaba/open-code-review/internal/llm"
+	"github.com/KonghaYao/open-code-review/internal/llm"
 )
 
 // TestPersistCustomModelName covers the providerTUIModel.persistCustomModelName

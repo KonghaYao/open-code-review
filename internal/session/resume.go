@@ -13,7 +13,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/alibaba/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/model"
 )
 
 // ResumeState is the replayed, read-only checkpoint index for one prior session.

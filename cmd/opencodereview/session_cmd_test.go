@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/alibaba/open-code-review/internal/model"
-	"github.com/alibaba/open-code-review/internal/session"
+	"github.com/KonghaYao/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/session"
 	"github.com/spf13/cobra"
 )
 

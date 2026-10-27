@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/agent"
-	"github.com/alibaba/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/agent"
+	"github.com/KonghaYao/open-code-review/internal/model"
 )
 
 // sampleComment carries every field that drives a colored render path: the

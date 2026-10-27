@@ -13,7 +13,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alibaba/open-code-review/acp/internal/intent"
+	"github.com/KonghaYao/open-code-review/acp/internal/intent"
 )
 
 func testRequest() intent.LLMRequest {

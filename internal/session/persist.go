@@ -15,7 +15,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/alibaba/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/model"
 )
 
 var sessionSubDir = "sessions"

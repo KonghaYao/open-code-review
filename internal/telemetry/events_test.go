@@ -20,7 +20,7 @@ import (
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 
-	"github.com/alibaba/open-code-review/internal/stdout"
+	"github.com/KonghaYao/open-code-review/internal/stdout"
 )
 
 func setupEnabledTelemetry(t *testing.T) {

@@ -13,7 +13,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/llm"
+	"github.com/KonghaYao/open-code-review/internal/llm"
 )
 
 func TestSetConfigValueAuthHeaderNormalizesKnownValues(t *testing.T) {

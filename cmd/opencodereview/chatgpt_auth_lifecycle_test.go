@@ -15,7 +15,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/alibaba/open-code-review/internal/chatgptauth"
+	"github.com/KonghaYao/open-code-review/internal/chatgptauth"
 	"github.com/spf13/cobra"
 )
 

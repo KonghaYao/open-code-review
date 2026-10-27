@@ -6,8 +6,8 @@ package scan
 import (
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/model"
-	"github.com/alibaba/open-code-review/internal/session"
+	"github.com/KonghaYao/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/session"
 )
 
 // TestScanAgent_SessionID_Persistent covers the non-empty return of SessionID:

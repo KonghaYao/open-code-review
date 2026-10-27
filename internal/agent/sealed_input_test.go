@@ -10,8 +10,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/config/template"
-	"github.com/alibaba/open-code-review/internal/session"
+	"github.com/KonghaYao/open-code-review/internal/config/template"
+	"github.com/KonghaYao/open-code-review/internal/session"
 )
 
 // sealRepo builds a two-commit repo on a branch, so `main..feature` is a real

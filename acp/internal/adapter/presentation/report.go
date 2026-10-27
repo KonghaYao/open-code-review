@@ -9,9 +9,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/alibaba/open-code-review/acp/internal/adapter/workspace"
-	"github.com/alibaba/open-code-review/acp/internal/contract"
-	"github.com/alibaba/open-code-review/acp/internal/orchestrator"
+	"github.com/KonghaYao/open-code-review/acp/internal/adapter/workspace"
+	"github.com/KonghaYao/open-code-review/acp/internal/contract"
+	"github.com/KonghaYao/open-code-review/acp/internal/orchestrator"
 )
 
 // FormatResult renders OCR findings with safe local navigation when root is set.

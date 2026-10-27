@@ -14,8 +14,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/config/template"
-	"github.com/alibaba/open-code-review/internal/llm"
+	"github.com/KonghaYao/open-code-review/internal/config/template"
+	"github.com/KonghaYao/open-code-review/internal/llm"
 )
 
 func initPreviewRepo(t *testing.T) string {

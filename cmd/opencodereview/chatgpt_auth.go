@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/alibaba/open-code-review/internal/chatgptauth"
-	"github.com/alibaba/open-code-review/internal/llm"
+	"github.com/KonghaYao/open-code-review/internal/chatgptauth"
+	"github.com/KonghaYao/open-code-review/internal/llm"
 	"github.com/spf13/cobra"
 )
 

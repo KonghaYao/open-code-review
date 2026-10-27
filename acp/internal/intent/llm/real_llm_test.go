@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/alibaba/open-code-review/acp/internal/intent"
+	"github.com/KonghaYao/open-code-review/acp/internal/intent"
 )
 
 // TestRealEndpointToolCall is opt-in because it calls a real, configured

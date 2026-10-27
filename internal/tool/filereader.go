@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/alibaba/open-code-review/internal/gitcmd"
-	"github.com/alibaba/open-code-review/internal/pathutil"
+	"github.com/KonghaYao/open-code-review/internal/gitcmd"
+	"github.com/KonghaYao/open-code-review/internal/pathutil"
 )
 
 // ReviewMode represents the active review mode.

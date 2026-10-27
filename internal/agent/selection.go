@@ -4,10 +4,10 @@
 package agent
 
 import (
-	allowedext "github.com/alibaba/open-code-review/internal/config/allowlist"
-	"github.com/alibaba/open-code-review/internal/llm"
-	"github.com/alibaba/open-code-review/internal/llmloop"
-	"github.com/alibaba/open-code-review/internal/model"
+	allowedext "github.com/KonghaYao/open-code-review/internal/config/allowlist"
+	"github.com/KonghaYao/open-code-review/internal/llm"
+	"github.com/KonghaYao/open-code-review/internal/llmloop"
+	"github.com/KonghaYao/open-code-review/internal/model"
 )
 
 // fileDecision is one changed file's pre-dispatch outcome: the diff, the

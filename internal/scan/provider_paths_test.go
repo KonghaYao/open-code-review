@@ -12,7 +12,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/gitcmd"
+	"github.com/KonghaYao/open-code-review/internal/gitcmd"
 )
 
 // TestProvider_Enumerate_PreservesWhitespaceInTrackedPaths covers issue #1493.

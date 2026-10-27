@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/chatgptauth"
+	"github.com/KonghaYao/open-code-review/internal/chatgptauth"
 )
 
 func TestChatGPTAuthCLIValidation(t *testing.T) {

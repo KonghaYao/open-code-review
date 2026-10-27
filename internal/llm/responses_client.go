@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/alibaba/open-code-review/internal/chatgptauth"
+	"github.com/KonghaYao/open-code-review/internal/chatgptauth"
 	openai "github.com/openai/openai-go/v3"
 	openaiopt "github.com/openai/openai-go/v3/option"
 	"github.com/openai/openai-go/v3/packages/param"

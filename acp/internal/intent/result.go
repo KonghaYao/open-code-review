@@ -11,7 +11,7 @@
 // flags such as --format or the OCR binary path.
 package intent
 
-import "github.com/alibaba/open-code-review/acp/internal/contract"
+import "github.com/KonghaYao/open-code-review/acp/internal/contract"
 
 // Kind is the outcome kind of a parse.
 type Kind int

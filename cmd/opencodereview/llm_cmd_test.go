@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/alibaba/open-code-review/internal/config/testconnection"
-	"github.com/alibaba/open-code-review/internal/llm"
+	"github.com/KonghaYao/open-code-review/internal/config/testconnection"
+	"github.com/KonghaYao/open-code-review/internal/llm"
 )
 
 func TestLLMTestTimeout(t *testing.T) {

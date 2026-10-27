@@ -8,7 +8,7 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/alibaba/open-code-review/internal/gitcmd"
+	"github.com/KonghaYao/open-code-review/internal/gitcmd"
 	"github.com/spf13/cobra"
 )
 
@@ -88,6 +88,6 @@ func versionString() string {
 	if BuildDate != "" {
 		s += fmt.Sprintf("built at: %s\n", BuildDate)
 	}
-	s += "https://github.com/alibaba/open-code-review\n"
+	s += "https://github.com/KonghaYao/open-code-review\n"
 	return s
 }

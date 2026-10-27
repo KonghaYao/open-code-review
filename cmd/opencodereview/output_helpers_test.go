@@ -12,9 +12,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/alibaba/open-code-review/internal/agent"
-	"github.com/alibaba/open-code-review/internal/llmloop"
-	"github.com/alibaba/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/agent"
+	"github.com/KonghaYao/open-code-review/internal/llmloop"
+	"github.com/KonghaYao/open-code-review/internal/model"
 )
 
 func TestHasSubtaskErrors(t *testing.T) {

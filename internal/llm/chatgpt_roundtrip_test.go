@@ -14,7 +14,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/chatgptauth"
+	"github.com/KonghaYao/open-code-review/internal/chatgptauth"
 	"github.com/openai/openai-go/v3"
 	"github.com/openai/openai-go/v3/option"
 	"github.com/openai/openai-go/v3/responses"

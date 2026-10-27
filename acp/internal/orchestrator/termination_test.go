@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/alibaba/open-code-review/acp/internal/testutil"
+	"github.com/KonghaYao/open-code-review/acp/internal/testutil"
 )
 
 // Deliberately hold Done delivery to prove that synchronous Err observation

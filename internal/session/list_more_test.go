@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/alibaba/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/model"
 )
 
 // TestParseRecordTime covers the empty, valid-RFC3339, and garbage branches.

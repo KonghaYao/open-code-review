@@ -21,7 +21,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/alibaba/open-code-review/acp/internal/contract"
+	"github.com/KonghaYao/open-code-review/acp/internal/contract"
 )
 
 // realReviewJSON is the shape documented in the CLI Contract (jsonOutput plus

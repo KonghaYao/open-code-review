@@ -14,7 +14,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/gitcmd"
+	"github.com/KonghaYao/open-code-review/internal/gitcmd"
 )
 
 func TestBuildGrepArgs_WorkspaceMode(t *testing.T) {

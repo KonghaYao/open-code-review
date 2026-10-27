@@ -6,7 +6,7 @@ package session
 import (
 	"encoding/json"
 
-	"github.com/alibaba/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/model"
 )
 
 // LoadComments replays one session's JSONL and returns every review comment

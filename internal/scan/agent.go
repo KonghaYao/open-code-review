@@ -14,17 +14,17 @@ import (
 	"sync/atomic"
 	"time"
 
-	allowedext "github.com/alibaba/open-code-review/internal/config/allowlist"
-	"github.com/alibaba/open-code-review/internal/config/rules"
-	"github.com/alibaba/open-code-review/internal/config/template"
-	"github.com/alibaba/open-code-review/internal/gitcmd"
-	"github.com/alibaba/open-code-review/internal/llm"
-	"github.com/alibaba/open-code-review/internal/llmloop"
-	"github.com/alibaba/open-code-review/internal/model"
-	"github.com/alibaba/open-code-review/internal/session"
-	"github.com/alibaba/open-code-review/internal/stdout"
-	"github.com/alibaba/open-code-review/internal/telemetry"
-	"github.com/alibaba/open-code-review/internal/tool"
+	allowedext "github.com/KonghaYao/open-code-review/internal/config/allowlist"
+	"github.com/KonghaYao/open-code-review/internal/config/rules"
+	"github.com/KonghaYao/open-code-review/internal/config/template"
+	"github.com/KonghaYao/open-code-review/internal/gitcmd"
+	"github.com/KonghaYao/open-code-review/internal/llm"
+	"github.com/KonghaYao/open-code-review/internal/llmloop"
+	"github.com/KonghaYao/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/session"
+	"github.com/KonghaYao/open-code-review/internal/stdout"
+	"github.com/KonghaYao/open-code-review/internal/telemetry"
+	"github.com/KonghaYao/open-code-review/internal/tool"
 )
 
 // changeFilesScanLiteral substitutes for the {{change_files}} placeholder.

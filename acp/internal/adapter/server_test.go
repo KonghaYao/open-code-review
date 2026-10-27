@@ -10,8 +10,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/alibaba/open-code-review/acp/internal/contract"
-	"github.com/alibaba/open-code-review/acp/internal/orchestrator"
+	"github.com/KonghaYao/open-code-review/acp/internal/contract"
+	"github.com/KonghaYao/open-code-review/acp/internal/orchestrator"
 	acp "github.com/coder/acp-go-sdk"
 )
 

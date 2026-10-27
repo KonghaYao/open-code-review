@@ -9,9 +9,9 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/alibaba/open-code-review/internal/diff"
-	"github.com/alibaba/open-code-review/internal/session"
-	"github.com/alibaba/open-code-review/internal/stdout"
+	"github.com/KonghaYao/open-code-review/internal/diff"
+	"github.com/KonghaYao/open-code-review/internal/session"
+	"github.com/KonghaYao/open-code-review/internal/stdout"
 )
 
 // SealedInput is what a pre-flight resolve froze: the identity it computed, and

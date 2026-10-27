@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/alibaba/open-code-review/internal/tool"
+	"github.com/KonghaYao/open-code-review/internal/tool"
 )
 
 // A tool call that fails carries no memory of that on its own: executeToolCall

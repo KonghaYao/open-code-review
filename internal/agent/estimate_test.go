@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/model"
 )
 
 // These tests mirror internal/scan/estimate_test.go deliberately: the agent

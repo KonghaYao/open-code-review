@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/alibaba/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/model"
 )
 
 func TestNewCommentWorkerPool_Default(t *testing.T) {

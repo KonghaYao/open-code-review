@@ -11,7 +11,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/model"
 )
 
 // TestProvider_Enumerate_OversizeSkip covers the size-cap branch: a file larger

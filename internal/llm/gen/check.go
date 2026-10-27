@@ -12,7 +12,7 @@ import (
 	"regexp"
 	"slices"
 
-	"github.com/alibaba/open-code-review/internal/llm"
+	"github.com/KonghaYao/open-code-review/internal/llm"
 )
 
 const presetDeclaration = "export const PROVIDER_PRESETS: OcrProviderPreset[] ="

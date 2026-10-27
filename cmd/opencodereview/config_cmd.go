@@ -13,8 +13,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/alibaba/open-code-review/internal/config/template"
-	"github.com/alibaba/open-code-review/internal/llm"
+	"github.com/KonghaYao/open-code-review/internal/config/template"
+	"github.com/KonghaYao/open-code-review/internal/llm"
 	"github.com/spf13/cobra"
 )
 

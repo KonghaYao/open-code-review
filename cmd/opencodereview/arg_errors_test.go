@@ -15,7 +15,7 @@ import (
 // "accepts 2 arg(s), received 1". Because the root command sets SilenceUsage,
 // the guidance has to travel inside the error itself.
 //
-// See: https://github.com/alibaba/open-code-review/issues/890
+// See: https://github.com/KonghaYao/open-code-review/issues/890
 func TestArgCountErrors_AreActionable(t *testing.T) {
 	tests := []struct {
 		name string

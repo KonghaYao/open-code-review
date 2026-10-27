@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/alibaba/open-code-review/internal/config/template"
+	"github.com/KonghaYao/open-code-review/internal/config/template"
 	"github.com/spf13/cobra"
 )
 

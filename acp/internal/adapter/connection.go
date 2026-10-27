@@ -6,7 +6,7 @@ package adapter
 import (
 	"io"
 
-	"github.com/alibaba/open-code-review/acp/internal/adapter/transport"
+	"github.com/KonghaYao/open-code-review/acp/internal/adapter/transport"
 	acp "github.com/coder/acp-go-sdk"
 )
 

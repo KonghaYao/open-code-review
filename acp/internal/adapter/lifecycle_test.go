@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/alibaba/open-code-review/acp/internal/intent"
-	"github.com/alibaba/open-code-review/acp/internal/orchestrator"
+	"github.com/KonghaYao/open-code-review/acp/internal/intent"
+	"github.com/KonghaYao/open-code-review/acp/internal/orchestrator"
 	acp "github.com/coder/acp-go-sdk"
 )
 

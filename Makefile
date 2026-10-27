@@ -2,12 +2,14 @@
 	build-all dist sha256sum version-info \
 	build-linux-amd64 build-linux-arm64 build-darwin-amd64 build-darwin-arm64 \
 	build-windows-amd64 build-windows-arm64 \
-	license-check license-add english-check
+	license-check license-add english-check build-peri-mcp
 
 BINARY_NAME := opencodereview
 GO          := go
 DIST_DIR    := ./dist
 EXE         := $(if $(filter Windows_NT,$(OS)),.exe,)
+PERI_BINARY_NAME := peri-code-review
+BIN_DIR     := ./bin
 
 # Version info — use git tag if available, fallback to short commit hash
 GIT_TAG     := $(shell git describe --tags --abbrev=0 2>/dev/null || echo "")
@@ -30,6 +32,12 @@ define BUILD_PLATFORM
 endef
 
 # ── Development targets ──────────────────────────────────────────────────────
+# cmd/peri-code-review keeps its version in a variable; release builds may add
+# -X main.version to this target without changing the development default.
+build-peri-mcp:
+	@mkdir -p $(BIN_DIR)
+	$(GO) build -o $(BIN_DIR)/$(PERI_BINARY_NAME)$(EXE) ./cmd/peri-code-review
+
 build:
 	$(GO) build -ldflags "$(LD_FLAGS)" -o $(DIST_DIR)/$(BINARY_NAME)$(EXE) ./cmd/opencodereview
 
@@ -58,6 +66,7 @@ coverage:
 
 clean:
 	rm -rf $(DIST_DIR) coverage.out
+	rm -f $(BIN_DIR)/$(PERI_BINARY_NAME)$(EXE)
 
 run: build
 	$(DIST_DIR)/$(BINARY_NAME)$(EXE) --staged

@@ -18,8 +18,8 @@ import (
 	"runtime/debug"
 	"sync"
 
-	"github.com/alibaba/open-code-review/internal/model"
-	"github.com/alibaba/open-code-review/internal/stdout"
+	"github.com/KonghaYao/open-code-review/internal/model"
+	"github.com/KonghaYao/open-code-review/internal/stdout"
 )
 
 // AgentWarning describes a non-fatal warning recorded during one subtask's
