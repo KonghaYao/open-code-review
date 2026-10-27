@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/alibaba/open-code-review/internal/gitcmd"
+	"github.com/KonghaYao/open-code-review/internal/gitcmd"
 )
 
 func writeFile(t *testing.T, dir, rel, content string) {
@@ -114,7 +114,7 @@ func TestSniffer_WorkingTree(t *testing.T) {
 }
 
 // TestSniffer_ReadsAtRefNotCheckedOut is the reason the sniffer reads through
-// `git show <ref>:<path>` rather than the working tree: `ocr review --from/--to`
+// `git show <ref>:<path>` rather than the working tree: a range review
 // can target a ref that is not checked out, and the file may not exist on disk
 // at all. Reading the working tree would silently fall back to matlab.md.
 func TestSniffer_ReadsAtRefNotCheckedOut(t *testing.T) {

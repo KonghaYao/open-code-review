@@ -12,8 +12,8 @@ import (
 
 	"github.com/bmatcuk/doublestar/v4"
 
-	allowedext "github.com/alibaba/open-code-review/internal/config/allowlist"
-	"github.com/alibaba/open-code-review/internal/pathutil"
+	allowedext "github.com/KonghaYao/open-code-review/internal/config/allowlist"
+	"github.com/KonghaYao/open-code-review/internal/pathutil"
 )
 
 func TestExpandBraces_NoBraces(t *testing.T) {

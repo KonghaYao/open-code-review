@@ -8,9 +8,8 @@
 //
 // Comments, identifiers and user-visible strings in this repository are written
 // in English so that any contributor can review and maintain every file,
-// whichever languages they happen to read. Translated content belongs in the
-// locale-specific docs (docs/i18n/README.zh-CN.md, pages/src/content/docs/zh/…)
-// and in the i18n tables, not in code.
+// whichever languages they happen to read. Translated content belongs in
+// Markdown documentation, which this check does not scan, not in code.
 //
 // What it detects, and the one thing it cannot:
 //
@@ -24,10 +23,10 @@
 //     character test, so it stays a matter for review.
 //
 // Symbols are deliberately left alone: box drawing, arrows, emoji and maths
-// (─ → ≥ ≈ ×) are not letters and appear throughout the TUI output on purpose.
+// (─ → ≥ ≈ ×) are not letters and appear throughout diagnostics on purpose.
 //
-// Markdown is not scanned: the translated READMEs, CONTRIBUTING files and doc
-// pages are legitimately non-English.
+// Markdown is not scanned: documentation may be translated without affecting
+// source files.
 //
 // Run it directly (the build tag keeps it out of ./... so it does not affect
 // go vet, go build or the coverage threshold):
@@ -72,12 +71,8 @@ var scannedNames = map[string]bool{"Makefile": true}
 
 // allowedPrefixes exempts paths whose non-English content is expected. Keep
 // each entry narrow and justified; a temporary entry must say what removes it.
-var allowedPrefixes = []struct{ prefix, reason string }{
-	{"pages/src/i18n/", "translated UI copy for the docs site"},
-	{"extensions/vscode/package.nls.", "translated UI copy for the extension manifest bundles"},
-	{"extensions/frontend/src/shared/i18n.ts", "translated UI copy for the extension webview"},
-	{"extensions/idea/src/main/kotlin/com/alibaba/opencodereview/idea/model/HostStrings.kt", "host-side mirror of the webview i18n table"},
-}
+// Currently empty: every scanned source tree is English-only.
+var allowedPrefixes = []struct{ prefix, reason string }{}
 
 // exemptMarker on a line suppresses the report for that line. The trailing
 // colon is part of the marker so that a bare "allow-non-english" cannot exempt
@@ -95,7 +90,7 @@ const exemptMarker = "allow-non-english:"
 // the day it arrives, with no edit here.
 //
 // Testing for letters, rather than for non-ASCII bytes, is what keeps symbols
-// out of scope: the box drawing, arrows, emoji and maths in the TUI output are
+// out of scope: the box drawing, arrows, emoji and maths in diagnostics are
 // not letters, and neither are the em dashes used throughout these comments. A
 // plain non-ASCII test would flag every one of them.
 //
@@ -207,11 +202,10 @@ func trim(s string) string {
 func run() error {
 	// --others --exclude-standard includes files that are not committed yet, so
 	// a new file is checked before it lands rather than the run after. Ignored
-	// paths (dist/, node_modules/) stay out.
+	// paths stay out.
 	//
 	// -z separates paths with NUL and emits them verbatim; without it git quotes
-	// and escapes any path that is not plain ASCII — exactly the kind of path
-	// internal/diff/git_test.go has fixtures for.
+	// and escapes any path that is not plain ASCII.
 	out, err := exec.Command("git", "ls-files", "-z", "--cached", "--others", "--exclude-standard").Output()
 	if err != nil {
 		// Output() fills ExitError.Stderr; without it the error reads as a bare
@@ -249,8 +243,8 @@ func run() error {
 		}
 		fmt.Fprintf(os.Stderr, `
 Source files are English-only: comments, identifiers and strings alike.
-Translated prose belongs in docs/i18n/README.<locale>.md, pages/src/content/docs/<locale>/
-or an i18n table.
+Translated prose belongs in Markdown documentation, which this check does not
+scan.
 
 If the non-English text is intentional — an encoding fixture, a
 language-switcher label — append a marker comment, including the reason, to

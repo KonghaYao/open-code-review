@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "peri-code-review": {
+      "command": "/absolute/path/to/bin/peri-code-review",
+      "args": [
+        "serve",
+        "--repo",
+        "/absolute/path/to/repository"
+      ],
+      "env": {
+        "PERI_CODE_REVIEW_STATE_DIR": "/absolute/path/to/review-state"
+      },
+      "system_mcp": true,
+      "system_mcp_tools": [
+        "review_prepare",
+        "review_context",
+        "review_status",
+        "review_submit",
+        "review_verify",
+        "review_finish"
+      ]
+    }
+  }
+}

@@ -19,8 +19,7 @@ HASH_HEADER='# SPDX-License-Identifier: Apache-2.0
 # Copyright 2026 alibaba/open-code-review Contributors'
 
 # CSS has no // line comment — that is SCSS — so a block is the only option. The
-# lines inside carry no prefix, matching the {{/* */}} header already in
-# internal/viewer/templates/app-header.html.
+# lines inside carry no prefix.
 BLOCK_HEADER='/*
 SPDX-License-Identifier: Apache-2.0
 Copyright 2026 alibaba/open-code-review Contributors
@@ -34,9 +33,8 @@ LICENSE_EXTS=(go js mjs ts tsx kt kts sh py css)
 
 IGNORED_PATHS=(
   "vendor/"
-  "dist/"
-  "node_modules/"
   "testdata/"
+  "bin/"
 )
 
 is_ignored() {
@@ -97,6 +95,7 @@ ADDED=0
 
 while IFS= read -r file; do
   [ -z "$file" ] && continue
+  [ -f "$file" ] || continue # deleted from the working tree but still indexed
   is_ignored "$file" && continue
 
   ext="${file##*.}"
